@@ -14,9 +14,6 @@ class LoggingService
      */
     protected $container;
 
-
-
-
     /**
      * @return Container
      */

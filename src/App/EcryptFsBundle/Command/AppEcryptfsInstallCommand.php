@@ -1,28 +1,22 @@
 <?php
 
-namespace App\DashboardBundle\Command;
+namespace App\EcryptFsBundle\Command;
 
-use App\DashboardBundle\Service\QueueService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Class AppQueueRunCommand
+ * Class AppEcryptfsInstallCommand
  */
-class AppQueueRunCommand extends ContainerAwareCommand
+class AppEcryptfsInstallCommand extends ContainerAwareCommand
 {
-    const APP_QUEUE_RUN_COMMAND = 'app:queue:run';
-
-    /**
-     * Configure
-     */
     protected function configure()
     {
         $this
-            ->setName(self::APP_QUEUE_RUN_COMMAND)
-            ->setDescription('Run queue commands.')
+            ->setName('app:ecryptfs:install')
+            ->setDescription('Install EcryptFS software.')
         ;
     }
 
@@ -34,9 +28,7 @@ class AppQueueRunCommand extends ContainerAwareCommand
     {
         $output = new SymfonyStyle($input, $output);
 
-        /** @var QueueService $queue */
-        $queue = $this->getContainer()->get('app_dashboard.service.queue_service');
-        $queue->queueRead(QueueService::APP_QUEUE_COMMAND);
+        // code...
 
         $output->success("[x] DONE!");
     }

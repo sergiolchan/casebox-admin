@@ -1,0 +1,6 @@
+services:
+
+    app_ecrypt_fs.service.ecrypt_fs_service:
+        class: App\EcryptFsBundle\Service\EcryptFsService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]

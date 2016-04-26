@@ -2,6 +2,7 @@
 
 namespace App\DashboardBundle\Service;
 
+use App\DashboardBundle\Event\QueueEvent;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Bridge\Monolog\Logger;
@@ -54,6 +55,9 @@ class QueueService
         $channel->basic_publish($msg, '', $queueChannel);
         $channel->close();
 
+        // On app queue write
+        $this->container->get('event_dispatcher')->dispatch('on.app.queue.write', new QueueEvent($data));
+
         return $connection->close();
     }
 
@@ -88,8 +92,11 @@ class QueueService
 
                 $body = json_decode($msg->body, true);
                 if (is_array($body)) {
+                    // On app queue read
+                    $this->container->get('event_dispatcher')->dispatch('on.app.queue.read', new QueueEvent($body));
+                    
                     // Execute
-                    $this->execute($body);
+                    $this->container->get('app_dashboard.service.command_service')->execute($body);
 
                     $this->logger->addInfo(" [x] DONE!");
                 }
@@ -104,19 +111,10 @@ class QueueService
 
         $channel->close();
 
+        // On app queue close
+        $this->container->get('event_dispatcher')->dispatch('on.app.queue.close', new QueueEvent());
+
         return $connection->close();
-    }
-
-    /**
-     * @param array $params
-     */
-    public function execute(array $params)
-    {
-        foreach ($params as $key => $values) {
-            switch ($key) {
-
-            }
-        }
     }
 
     /**

@@ -3,3 +3,8 @@ services:
         class: App\CaseboxCoreBundle\Service\CaseboxCoreService
         calls:
             - [ setContainer, [ '@service_container' ] ]
+
+    app_casebox_core.service.casebox_core_command_service:
+        class: App\CaseboxCoreBundle\Service\CaseboxCoreCommandService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]

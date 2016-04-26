@@ -1,0 +1,5 @@
+services:
+    app_casebox_core.event_subscriber.casebox_core_event_subscriber:
+        class: App\CaseboxCoreBundle\EventSubscriber\CaseboxCoreEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new App\BackupBundle\AppBackupBundle(),
             new App\SystemLogBundle\AppSystemLogBundle(),
             new App\SystemServiceBundle\AppSystemServiceBundle(),
+            new App\EcryptFsBundle\AppEcryptFsBundle(),
         ];
 
         return $bundles;

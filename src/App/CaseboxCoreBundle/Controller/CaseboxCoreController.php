@@ -54,7 +54,7 @@ class CaseboxCoreController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app_casebox_core.service.casebox_core_service')->addContainer($form->getData());
+            $this->get('app_casebox_core.service.casebox_core_service')->addCore($form->getData());
 
             return $this->redirectToRoute('admin_core');
         }
@@ -91,7 +91,7 @@ class CaseboxCoreController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app_casebox_core.service.casebox_core_service')->deleteContainer($core);
+            $this->get('app_casebox_core.service.casebox_core_service')->deleteCore($core);
 
             return $this->redirectToRoute('admin_core');
         }

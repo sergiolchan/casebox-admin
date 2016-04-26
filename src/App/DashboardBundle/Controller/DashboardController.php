@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $cores = $this->get('app_casebox_core.service.casebox_core_service')->getAllCores();
 
         if (empty($cores)) {
-            return $this->render('AppDashboardBundle:dashboard:startup.html.twig', $vars);
+            //return $this->render('AppDashboardBundle:dashboard:startup.html.twig', $vars);
         }
 
         foreach ($cores as $core) {
