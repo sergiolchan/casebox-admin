@@ -1,0 +1,20 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox core details{% endblock %}
+
+{% block body %}
+    <strong>URL: </strong>{{ url|raw }}<br>
+    <strong>Core name: </strong>{{ coreName }}<br>
+    <strong>Admin email: </strong>{{ adminEmail }}<br>
+    <strong>Sender email: </strong>{{ senderEmail }}<br>
+    <strong>Created at: </strong>{{ createdAt }}<br>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <ul>
+        <li><a href="{{ path('admin_core') }}">Go back</a></li>
+    </ul>
+{% endblock %}
+

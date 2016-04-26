@@ -1,0 +1,10 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Backup database and files{% endblock %}
+
+{% block body %}
+    <ul>
+        <li><a href="{{ url('admin_backup_database') }}">Backup database</a></li>
+        <li><a href="{{ url('admin_backup_files') }}">Backup files</a></li>
+    </ul>
+{% endblock %}

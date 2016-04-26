@@ -1,0 +1,4 @@
+services:
+#    app_system_log.example:
+#        class: App\SystemLogBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

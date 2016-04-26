@@ -1,0 +1,18 @@
+services:
+    app_dashboard.service.command_service:
+        class: App\DashboardBundle\Service\CommandService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+    app_dashboard.service.logging_service:
+        class: App\DashboardBundle\Service\LoggingService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+    app_dashboard.service.message_service:
+        class: App\DashboardBundle\Service\MessageService
+
+    app_dashboard.service.queue_service:
+        class: App\DashboardBundle\Service\QueueService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]

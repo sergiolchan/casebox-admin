@@ -1,0 +1,129 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox application dashboard{% endblock %}
+
+{% block body %}
+
+    <h4>Casebox cores</h4>
+
+    {% if items %}
+        {% for item in items %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Core: </strong>{{ item.coreName }}<br>
+                </div>
+                <div class="panel-body">
+                    <strong>Admin email: </strong>{{ item.adminEmail }}<br>
+                    <strong>Created at: </strong>{{ item.createdAt }}<br>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        {{ item.actions|raw }}<br>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    No casebox core found. <a href="{{ path('admin_core_add') }}">Add Casebox core.</a>
+                </div>
+            </div>
+    {% endif %}
+
+    <h4>Remote synchronization</h4>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Synchronization type</th>
+                <th>Last synchronization</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="{{ url('admin_sync_database') }}">Synchronize database</a></td>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-success">success</span></td>
+            </tr>
+            <tr>
+                <td><a href="{{ url('admin_sync_files') }}">Synchronize files</a></td>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">error</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Backup</h4>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Backup type</th>
+                <th>Last backup</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="{{ url('admin_backup_database') }}">Backup database</a></td>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-success">success</span></td>
+            </tr>
+            <tr>
+                <td><a href="{{ url('admin_backup_files') }}">Backup files</a></td>
+                <td>N/A</td>
+                <td><span class="text-info">N/A</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Recent logs</h4>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Date/Time</th>
+                <th>Type</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">warning</span></td>
+                <td>*126 FastCGI sent in stderr:...</td>
+            </tr>
+            <tr>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">warning</span></td>
+                <td>Uncaught TypeError: Argument 2 passed to...</td>
+            </tr>
+            <tr>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">warning</span></td>
+                <td>PHP message: PHP Fatal error:...</td>
+            </tr>
+            <tr>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">warning</span></td>
+                <td>PHP message: PHP Fatal error:...</td>
+            </tr>
+            <tr>
+                <td>25-04-2016 11:00:29</td>
+                <td><span class="text-warning">warning</span></td>
+                <td>PHP message: PHP Fatal error:...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+

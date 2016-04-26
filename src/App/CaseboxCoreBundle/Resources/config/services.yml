@@ -1,0 +1,5 @@
+services:
+    app_casebox_core.service.casebox_core_service:
+        class: App\CaseboxCoreBundle\Service\CaseboxCoreService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
