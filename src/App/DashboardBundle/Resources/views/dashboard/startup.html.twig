@@ -1,12 +1,19 @@
 {% extends('AppDashboardBundle::empty.html.twig') %}
 
-{% block title %}Casebox startup{% endblock %}
+{% block title %}Casebox encryption setup{% endblock %}
 
 {% block body %}
 
-    <p>Before start your casebox environment, please provide folder encryption passphrase.</p>
+    <p>
+        Before setup and start casebox environment,
+        please provide folder encryption passphrase and hit Submit button.
+    </p>
 
-    ...
+    <hr>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
 {% endblock %}
 

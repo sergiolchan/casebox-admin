@@ -53,7 +53,11 @@ class CommandService
             if ($this->container->has($key)) {
                 $service = $this->container->get($key);
                 foreach ($values as $method => $value) {
-                    $commands = $service->$method($value);
+                    try {
+                        $commands = $service->$method($value);
+                    } catch (\Exception $e) {
+                        $this->logger->addError(sprintf(" [!] ERROR! %s", $e->getMessage()));
+                    }
                     foreach ($commands as $alias => $command) {
                         $result[] = $this->process($alias, $command);
                     }

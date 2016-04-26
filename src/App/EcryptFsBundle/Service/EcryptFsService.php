@@ -14,37 +14,18 @@ class EcryptFsService
      */
     protected $container;
 
-    /**
-     * @param array $params
-     * @return array
-     */
-    public function install(array $params = [])
+    public function passphrase($passphrase)
     {
-        $commands['install'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=install';
+        // Try to mount partitions
+        // Stop services
+        $data['app_ecrypt_fs.service.ecrypt_fs_command_service']['stopServices'] = ['passphrase' => $passphrase];
+        $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
+        
+        // Set to registry and redis
+        $this->container->get('app_dashboard.service.registry_service')->set('is_ecryptfs', 1);
+        $this->container->get('app_dashboard.service.redis_service')->set('is_ecryptfs', 1);
 
-        return $commands;
-    }
-
-    /**
-     * @param array $params
-     * @return bool|true
-     */
-    public function mount(array $params = [])
-    {
-        $commands['mount'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=mount';
-
-        return $commands;
-    }
-
-    /**
-     * @param array $params
-     * @return bool|true
-     */
-    public function umount(array $params = [])
-    {
-        $commands['umount'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=umount';
-
-        return $commands;
+        return true;
     }
 
     /**

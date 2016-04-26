@@ -13,4 +13,7 @@ class MessageService
     const PROCESS_QUEUE_RUNNING         = 'A queue process is already running.';
     const PROCESS_QUEUE_NOT_RUNNING     = 'No queue process running.';
     const PROCESS_QUEUE_STOPPED         = 'Stopped the queue process.';
+    // CryptFS
+    const PASSPHRASE_NOT_FOUND          = 'Passphrase not found.';
+    const CRYPTFS_UNABLE_TO_MOUNT       = 'Unable to mount encrypted folders.';
 }

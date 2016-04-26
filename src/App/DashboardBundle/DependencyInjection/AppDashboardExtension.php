@@ -25,6 +25,7 @@ class AppDashboardExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('monolog.yml');
+        $loader->load('listeners.yml');
         $loader->load('subscribers.yml');
     }
 }

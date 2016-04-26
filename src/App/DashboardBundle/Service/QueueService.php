@@ -94,10 +94,7 @@ class QueueService
                 if (is_array($body)) {
                     // On app queue read
                     $this->container->get('event_dispatcher')->dispatch('on.app.queue.read', new QueueEvent($body));
-                    
-                    // Execute
                     $this->container->get('app_dashboard.service.command_service')->execute($body);
-
                     $this->logger->addInfo(" [x] DONE!");
                 }
 
