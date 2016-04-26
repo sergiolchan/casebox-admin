@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class EcryptFsCommandService
 {
+    const BASE_SCRIPT = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml';
     /**
      * @var Container
      */
@@ -33,7 +34,7 @@ class EcryptFsCommandService
      */
     public function install(array $params = [])
     {
-        $commands['install'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=install';
+        $commands['install'] = self::BASE_SCRIPT.' --tags=install';
 
         return $commands;
     }
@@ -44,7 +45,7 @@ class EcryptFsCommandService
      */
     public function mount(array $params = [])
     {
-        $commands['mount'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=mount';
+        $commands['mount'] = self::BASE_SCRIPT.' --tags=mount --extra-vars="passphrase='.$params['passphrase'].'"';
 
         return $commands;
     }
@@ -55,7 +56,7 @@ class EcryptFsCommandService
      */
     public function umount(array $params = [])
     {
-        $commands['umount'] = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/ecryptfs.yml --tags=umount';
+        $commands['umount'] = self::BASE_SCRIPT.' --tags=umount';
 
         return $commands;
     }

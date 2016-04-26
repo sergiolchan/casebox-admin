@@ -2,6 +2,7 @@
 
 namespace App\DashboardBundle\Traits;
 
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -29,15 +30,34 @@ trait StringTrait
      */
     public function filterOutput($string, $group = 'logging')
     {
+        $patterns = [];
+
         $replacement = '********';
         switch ($group) {
             case 'logging':
-                $pattern = '/--password \$\(echo([^|]*)\| openssl passwd -1 -stdin\)/i';
+                $patterns = [
+                    [
+                        'pattern' => '/--password \$\(echo([^|]*)\| openssl passwd -1 -stdin\)/i',
+                        'replacement' => '--password '.$replacement,
+                    ],
+                    [
+                        'pattern' => '/passphrase=([^"]*)/i',
+                        'replacement' => 'passphrase='.$replacement,
+                    ],
+                ];
 
                 break;
         }
 
-        return preg_replace($pattern, $replacement, $string);
+        if (empty($patterns)) {
+            return $string;
+        }
+
+        foreach ($patterns as $pattern) {
+            $string = preg_replace($pattern['pattern'], $pattern['replacement'], $string);
+        }
+
+        return $string;
     }
 
     /**
