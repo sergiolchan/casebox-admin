@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class RequestListener
 {
     const INSTALL_REDIRECT_URL = '/admin/install';
-    const ECRYPTFS_REDIRECT_URL = '/admin/ecryptfs';
+
     /**
      * @var Container
      */
@@ -32,16 +32,10 @@ class RequestListener
 
         $isEcryptfsPass = $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
 
-        $urls = [self::INSTALL_REDIRECT_URL, self::ECRYPTFS_REDIRECT_URL];
+        $urls = [self::INSTALL_REDIRECT_URL];
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
-            if (empty($isEcryptfsInstalled)) {
-                $event->setController(function() {
-                    return new RedirectResponse(self::INSTALL_REDIRECT_URL);
-                });
-            } elseif (empty($isEcryptfsPass)) {
-                $event->setController(function() {
-                    return new RedirectResponse(self::ECRYPTFS_REDIRECT_URL);
-                });  
+            if (empty($isEcryptfsInstalled) || empty($isEcryptfsPass)) {
+                return new RedirectResponse(self::INSTALL_REDIRECT_URL);
             }
         }
     }

@@ -84,42 +84,6 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/admin/ecryptfs", name="admin_ecryptfs")
-     * @return Response
-     */
-    public function ecryptfsAction(Request $request)
-    {
-        $vars['items'] = [];
-
-        $form = $this->setupGetForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            if (empty($data['passphrase'])) {
-                $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
-
-                return $this->redirectToRoute('admin_install');
-            }
-
-            $result = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->passphrase($data['passphrase']);
-            
-            if (empty($result)) {
-                $this->addFlash('warning', MessageService::CRYPTFS_UNABLE_TO_MOUNT);
-                
-                return $this->redirectToRoute('admin_install');
-            } else {
-                return $this->redirectToRoute('admin');
-            }
-        }
-
-        $vars['form'] = $form->createView();
-
-        return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
-    }
-
-
-    /**
      * @Route("/admin/rsa", name="admin_rsa")
      * @return Response
      */
