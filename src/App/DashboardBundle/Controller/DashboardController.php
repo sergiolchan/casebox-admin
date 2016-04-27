@@ -77,10 +77,10 @@ class DashboardController extends Controller
 
             $vars['form'] = $form->createView();
 
-            return $this->render('AppDashboardBundle:dashboard:startup.html.twig', $vars);
+            return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
         }
 
-        return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
+        return $this->redirectToRoute('admin');
     }
 
     /**

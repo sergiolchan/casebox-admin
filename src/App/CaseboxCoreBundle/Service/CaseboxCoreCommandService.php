@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class CaseboxCoreCommandService
 {
+    const BASE_SCRIPT = 'ansible-playbook -i "localhost," -c local /var/provision/ansible/casebox.yml';
+
     /**
      * @var Container
      */
@@ -21,9 +23,9 @@ class CaseboxCoreCommandService
      */
     public function create($params = null)
     {
-        $command['ping'] = 'ping -c 3 8.8.8.8';
+        $commands['install'] = self::BASE_SCRIPT.' --tags=install --extra-vars="casebox_core='.$params['casebox_core'].'"';
         
-        return $command;
+        return $commands;
     }
     
     /**
@@ -33,9 +35,9 @@ class CaseboxCoreCommandService
      */
     public function remove($params = null)
     {
-        $command['ping'] = 'ping -c 3 8.8.8.8';
+        $commands['uninstall'] = self::BASE_SCRIPT.' --tags=uninstall --extra-vars="casebox_core='.$params['casebox_core'].'"';
         
-        return $command;
+        return $commands;
     }
 
     /**

@@ -70,18 +70,8 @@ class CaseboxCoreService
         // Dispatch
         $this->container->get('event_dispatcher')->dispatch('on.app.casebox_core.create', new CaseboxCoreEvent($core));
 
-        // Write create queue
-        $data = [
-            'app_casebox_core.service.casebox_core_command_service' => [
-                'create' => [
-                    'create' => [
-                        'coreName' => $core->getCoreName(),
-                        'adminEmail' => $core->getAdminEmail(),
-                        'senderEmail' => $core->getSenderEmail(),
-                    ],
-                ],
-            ],
-        ];
+        // Write command to queue
+        $data['app_casebox_core.service.casebox_core_command_service']['create'] = ['casebox_core' => $core->getCoreName()];
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
         return $core;
@@ -112,20 +102,11 @@ class CaseboxCoreService
         // Dispatch
         $this->container->get('event_dispatcher')->dispatch('on.app.casebox_core.remove', new CaseboxCoreEvent($core));
 
-        // Write create queue
-        $data = [
-            'app_casebox_core.service.casebox_core_command_service' => [
-                'remove' => [
-                    'remove' => [
-                        'coreName' => $core->getCoreName(),
-                        'adminEmail' => $core->getAdminEmail(),
-                        'senderEmail' => $core->getSenderEmail(),
-                    ],
-                ],
-            ],
-        ];
+        // Command
+        $data['app_casebox_core.service.casebox_core_command_service']['remove'] = ['casebox_core' => $core->getCoreName()];
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
+        // Object
         $this->container->get('doctrine.orm.entity_manager')->remove($core);
         $this->container->get('doctrine.orm.entity_manager')->flush();
 
