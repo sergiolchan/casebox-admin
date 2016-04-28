@@ -1,4 +1,4 @@
-dashboard
-=========
+Admin UI
+========
 
-A Symfony project created on April 25, 2016, 3:25 pm.
+Casebox admin UI for vagrant box.
