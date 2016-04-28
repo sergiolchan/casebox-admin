@@ -44,6 +44,10 @@ trait StringTrait
                         'pattern' => '/passphrase=([^"]*)/i',
                         'replacement' => 'passphrase='.$replacement,
                     ],
+                    [
+                        'pattern' => '/passphrase_passwd=([^,]*)/i',
+                        'replacement' => 'passphrase_passwd='.$replacement.',',
+                    ],
                 ];
 
                 break;

@@ -50,37 +50,32 @@ class DashboardController extends Controller
     public function installAction(Request $request)
     {
         $vars['items'] = [];
-        $cores = $this->get('app_casebox_core.service.casebox_core_service')->getAllCores();
 
-        if (empty($cores)) {
-            $form = $this->setupGetForm();
-            $form->handleRequest($request);
+        $form = $this->setupGetForm();
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
-                if (empty($data['passphrase'])) {
-                    $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            if (empty($data['passphrase'])) {
+                $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
 
-                    return $this->redirectToRoute('admin_install');
-                }
-
-                $result = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->passphrase($data['passphrase']);
-                
-                if (empty($result)) {
-                    $this->addFlash('warning', MessageService::CRYPTFS_UNABLE_TO_MOUNT);
-                    
-                    return $this->redirectToRoute('admin_install');
-                } else {
-                    return $this->redirectToRoute('admin');
-                }
+                return $this->redirectToRoute('admin_install');
             }
 
-            $vars['form'] = $form->createView();
-
-            return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
+            $result = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->passphrase($data['passphrase']);
+            
+            if (empty($result)) {
+                $this->addFlash('warning', MessageService::CRYPTFS_UNABLE_TO_MOUNT);
+                
+                return $this->redirectToRoute('admin_install');
+            } else {
+                return $this->redirectToRoute('admin');
+            }
         }
 
-        return $this->redirectToRoute('admin');
+        $vars['form'] = $form->createView();
+
+        return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
     }
 
     /**

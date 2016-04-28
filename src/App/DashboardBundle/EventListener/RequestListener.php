@@ -33,6 +33,7 @@ class RequestListener
         $isEcryptfsPass = $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
 
         $urls = [self::REDIRECT_URL];
+
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
             if (empty($isEcryptfsPass)) {
                 return $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
