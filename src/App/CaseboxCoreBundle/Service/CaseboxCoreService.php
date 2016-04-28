@@ -70,8 +70,8 @@ class CaseboxCoreService
         $this->container->get('event_dispatcher')->dispatch('on.app.casebox_core.create', new CaseboxCoreEvent($core));
 
         // Write command to queue
-        //        $data['app_casebox_core.service.casebox_core_command_service']['create'] = ['casebox_core' => $core->getCoreName()];
-        //        $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
+        $data['app_casebox_core.service.casebox_core_command_service']['create'] = ['casebox_core' => $core->getCoreName()];
+        $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
         return $core;
     }
@@ -83,7 +83,7 @@ class CaseboxCoreService
      */
     public function editCore(Core $core)
     {
-        //        $this->container->get('doctrine.orm.entity_manager')->flush($core);
+        $this->container->get('app_casebox_core.repository.core_repository')->save($core);
 
         // Dispatch
         $this->container->get('event_dispatcher')->dispatch('on.app.casebox_core.edit', new CaseboxCoreEvent($core));

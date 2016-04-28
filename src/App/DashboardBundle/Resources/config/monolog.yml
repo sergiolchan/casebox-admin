@@ -7,4 +7,4 @@ services:
 
     app_dashboard.service.queue_logger.logger_handler:
         class: Monolog\Handler\StreamHandler
-        arguments: ['%kernel.logs_dir%/%kernel.environment%/queue.log', 200]
+        arguments: ['%kernel.logs_dir%/queue/%kernel.environment%.log', 200]

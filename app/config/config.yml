@@ -5,7 +5,7 @@ imports:
     - { resource: twig.yml }
     - { resource: swiftmailer.yml }
     - { resource: monolog.yml }
-    - { resource: web_profiler.yml }
+#    - { resource: web_profiler.yml }
 
 
 # Put parameters here that don't need to change on each machine where the app is deployed
