@@ -28,7 +28,6 @@ class EcryptFsService
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
         // Set to registry and redis
-        $this->container->get('app_dashboard.service.registry_service')->set('is_ecryptfs', 1);
         $this->container->get('app_dashboard.service.redis_service')->set('is_ecryptfs', 1);
 
         return true;

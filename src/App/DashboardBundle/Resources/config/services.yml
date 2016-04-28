@@ -17,11 +17,6 @@ services:
         calls:
             - [ setContainer, [ '@service_container' ] ]
 
-    app_dashboard.service.registry_service:
-        class: App\DashboardBundle\Service\RegistryService
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
     app_dashboard.service.redis_service:
         class: App\DashboardBundle\Service\RedisService
         calls:

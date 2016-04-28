@@ -3,6 +3,6 @@ services:
     app_dashboard.event_listener.request_listener:
         class: App\DashboardBundle\EventListener\RequestListener
         tags:
-            - { name: kernel.event_listener, event: kernel.controller }
+            - { name: kernel.event_listener, event: kernel.request }
         calls:
             - [ setContainer, [ '@service_container' ] ]

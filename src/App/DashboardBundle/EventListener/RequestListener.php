@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class RequestListener
 {
-    const INSTALL_REDIRECT_URL = '/admin/install';
+    const REDIRECT_URL = '/admin/install';
 
     /**
      * @var Container
@@ -22,20 +22,20 @@ class RequestListener
     /**
      * @param FilterControllerEvent $event
      */
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelRequest(GetResponseEvent $event)
     {
-        // Redirect if no ecryptfs installed
-        $isEcryptfsInstalled = $this->container->get('app_dashboard.service.registry_service')->get(
-            'is_ecryptfs',
-            false
-        );
+        if (!$event->isMasterRequest()) {
+            // don't do anything if it's not the master request
+            return;
+        }
 
+        // Redirect if no ecryptfs installed
         $isEcryptfsPass = $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
 
-        $urls = [self::INSTALL_REDIRECT_URL];
+        $urls = [self::REDIRECT_URL];
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
-            if (empty($isEcryptfsInstalled) || empty($isEcryptfsPass)) {
-                return new RedirectResponse(self::INSTALL_REDIRECT_URL);
+            if (empty($isEcryptfsPass)) {
+                return $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
             }
         }
     }
