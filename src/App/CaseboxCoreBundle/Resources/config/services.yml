@@ -8,3 +8,14 @@ services:
         class: App\CaseboxCoreBundle\Service\CaseboxCoreCommandService
         calls:
             - [ setContainer, [ '@service_container' ] ]
+
+    # entity
+    app_casebox_core.entity.core:
+        class: App\CaseboxCoreBundle\Entity\Core
+
+    # Repository
+    app_casebox_core.repository.core_repository:
+        class: App\CaseboxCoreBundle\Repository\CoreRepository
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+            - [ setDbDir, [ '%database_dir%' ] ]

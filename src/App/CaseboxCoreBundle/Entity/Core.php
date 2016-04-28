@@ -2,58 +2,53 @@
 
 namespace App\CaseboxCoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Api\MicroDbBundle\Interfaces\ObjectInterface;
+use App\CaseboxCoreBundle\Repository\CoreRepository;
 
 /**
  * Core
- *
- * @ORM\Table(name="core")
- * @ORM\Entity(repositoryClass="App\CaseboxCoreBundle\Repository\CoreRepository")
- * @UniqueEntity("core_name")
  */
-class Core
+class Core extends CoreRepository implements ObjectInterface
 {
     const LOCALE_DEFAULT = 'en';
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      */
     protected $id;
-
+    
     /**
      * @var string
-     * @ORM\Column(name="locale", type="string", options={"default"="en"})
      */
     protected $locale = self::LOCALE_DEFAULT;
 
     /**
      * @var string
-     * @ORM\Column(name="core_name", type="string", length=50, unique=true)
      */
     protected $coreName;
 
     /**
      * @var string
-     * @ORM\Column(name="admin_email", type="string")
      */
     protected $adminEmail;
 
     /**
      * @var string
-     * @ORM\Column(name="sender_email", type="string", nullable=true)
      */
     protected $senderEmail;
 
     /**
      * @var integer
-     * @ORM\Column(name="create_at", type="integer")
      */
     protected $createAt;
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this->toArray($this));
+    }
 
     /**
      * Core constructor
@@ -65,13 +60,23 @@ class Core
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Core $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**

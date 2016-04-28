@@ -25,8 +25,9 @@ class RegistryService
     {
         $value = $data;
 
-        $registry = $this->registry()->findOneBy(['name' => $name]);
-
+        //$registry = $this->registry()->findOneBy(['name' => $name]);
+        $registry = null;
+        
         if ($registry instanceof Registry) {
             $value = $registry->getData();
         }
@@ -52,8 +53,8 @@ class RegistryService
         $registry->setName($name);
         $registry->setData($data);
 
-        $this->container->get('doctrine.orm.entity_manager')->persist($registry);
-        $this->container->get('doctrine.orm.entity_manager')->flush();
+//        $this->container->get('doctrine.orm.entity_manager')->persist($registry);
+//        $this->container->get('doctrine.orm.entity_manager')->flush();
 
         return $data;
     }
@@ -68,8 +69,8 @@ class RegistryService
     {
         $registry = $this->registry()->findOneBy(['name' => $name]);
         if ($registry instanceof Registry) {
-            $this->container->get('doctrine.orm.entity_manager')->remove($registry);
-            $this->container->get('doctrine.orm.entity_manager')->flush();
+//            $this->container->get('doctrine.orm.entity_manager')->remove($registry);
+//            $this->container->get('doctrine.orm.entity_manager')->flush();
 
             return true;
         }
@@ -79,7 +80,9 @@ class RegistryService
 
     protected function registry()
     {
-        $registry = $this->container->get('doctrine.orm.entity_manager')->getRepository('AppDashboardBundle:Registry');
+//        $registry = $this->container->get('doctrine.orm.entity_manager')->getRepository('AppDashboardBundle:Registry');
+
+        $registry = [];
 
         return $registry;
     }

@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: twig.yml }
-    - { resource: doctrine.yml }
     - { resource: swiftmailer.yml }
     - { resource: monolog.yml }
     - { resource: web_profiler.yml }

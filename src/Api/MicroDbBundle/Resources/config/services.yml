@@ -1,0 +1,5 @@
+services:
+    api_micro_db.service.micro_db_service:
+        class: Api\MicroDbBundle\Service\MicroDbService
+        calls:
+          - [ setContainer, [ '@service_container' ] ]

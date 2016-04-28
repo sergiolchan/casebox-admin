@@ -2,11 +2,21 @@
 
 namespace App\CaseboxCoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Api\MicroDbBundle\Interfaces\ObjectInterface;
+use Api\MicroDbBundle\Interfaces\RepositoryInterface;
+use Api\MicroDbBundle\Service\MicroDbService;
+use App\CaseboxCoreBundle\Entity\Core;
 
 /**
  * CoreRepository
  */
-class CoreRepository extends EntityRepository
+class CoreRepository extends MicroDbService implements RepositoryInterface
 {
+    /**
+     * @return ObjectInterface
+     */
+    public function getObjectClass()
+    {
+        return Core::class;
+    }
 }

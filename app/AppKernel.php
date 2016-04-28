@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new App\SystemLogBundle\AppSystemLogBundle(),
             new App\SystemServiceBundle\AppSystemServiceBundle(),
             new App\EcryptFsBundle\AppEcryptFsBundle(),
+            new Api\MicroDbBundle\ApiMicroDbBundle(),
         ];
 
         return $bundles;

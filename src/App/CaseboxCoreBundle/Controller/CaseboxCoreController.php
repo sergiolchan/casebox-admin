@@ -25,7 +25,7 @@ class CaseboxCoreController extends Controller
     public function indexAction()
     {
         $vars['items'] = [];
-        $cores = $this->get('app_casebox_core.service.casebox_core_service')->getAllCores();
+        $cores = $this->get('app_casebox_core.repository.core_repository')->find();
 
         foreach ($cores as $core) {
             if ($core instanceof Core) {
@@ -73,8 +73,10 @@ class CaseboxCoreController extends Controller
      *
      * @return Response
      */
-    public function viewAction(Request $request, Core $core)
+    public function viewAction(Request $request, $id)
     {
+        $core = $this->get('app_casebox_core.repository.core_repository')->findOne(['id' => $id]);
+
         $builder = $this->createFormBuilder([]);
         $builder->add(
             'delete',
