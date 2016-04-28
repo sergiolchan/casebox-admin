@@ -14,6 +14,12 @@ class EcryptFsService
      */
     protected $container;
 
+    /**
+     * @param string $passphrase
+     *
+     * @return bool
+     * @throws \Exception
+     */
     public function passphrase($passphrase)
     {
         // Try to mount partitions

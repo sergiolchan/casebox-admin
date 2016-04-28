@@ -1,5 +1,5 @@
 parameters:
-    server_name: http://192.168.33.81.xip.io
+    server_name: http://192.168.33.3.xip.io
     database_dir: '%kernel.root_dir%/../var/database'
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
