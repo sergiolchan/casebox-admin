@@ -27,12 +27,21 @@ class WebSocketService
         $app = new App($config['host'], $config['port']);
 
         if (!empty($config['routes'])) {
+<<<<<<< HEAD
             foreach ($config['routes'] as $vars) {
                 $route = $vars['route'];
                 $class = $vars['class'];
                 $params = $vars['params'];
 
                 $app->route($route, new $class, $params);
+=======
+            foreach ($config['routes'] as $route) {
+                $route = $route['route'];
+                $class = $route['class'];
+                $params = $route['params'];
+
+                $app->route($route, $class, $params);
+>>>>>>> 8b4d6ff7411e2df2beaade0311308495ffadae8f
             }
         }
 
