@@ -18,8 +18,9 @@ class CaseboxCoreController extends Controller
 {
     const BTN_UPDATE = 'update';
     const BTN_DELETE = 'delete';
-    use DateTrait;
 
+    use DateTrait;
+    
     /**
      * @Route("/admin/core", name="admin_core")
      * @return Response
