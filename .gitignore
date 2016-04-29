@@ -29,3 +29,6 @@
 
 /vendor/
 /web/bundles/
+/nbproject/private/
+nbproject/*
+._.DS_Store
