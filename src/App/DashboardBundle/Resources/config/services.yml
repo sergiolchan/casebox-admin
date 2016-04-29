@@ -21,3 +21,8 @@ services:
         class: App\DashboardBundle\Service\RedisService
         calls:
             - [ setConfig, [ '%redis%' ] ]
+
+    app_dashboard.service.web_socket_service:
+        class: App\DashboardBundle\Service\WebSocketService
+        calls:
+            - [setContainer, ['@service_container']]
