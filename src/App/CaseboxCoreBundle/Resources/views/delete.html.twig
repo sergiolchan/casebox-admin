@@ -1,0 +1,14 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox core delete{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <ul>
+        <li><a href="{{ path('admin_core') }}">Go back</a></li>
+    </ul>
+{% endblock %}
+

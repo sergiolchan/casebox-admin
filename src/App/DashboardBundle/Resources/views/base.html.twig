@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include('AppDashboardBundle::header.html.twig') %}
+</head>
+
+<body class="dashboard">
+
+<!-- Main Section -->
+<section id="main" class="main-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <img src="{{ asset('bundles/appdashboard/img/logo.png') }}">
+                <ul class="main-menu">
+                    <li><a href="{{ url('admin') }}">Dashboard</a></li>
+                    <li><a href="{{ url('admin_core') }}">Casebox Cores</a></li>
+                    <li><a href="{{ url('admin_sync') }}">Remote Sync</a>
+                        <ul>
+                            <li><a href="{{ url('admin_sync_database') }}">Database</a></li>
+                            <li><a href="{{ url('admin_sync_files') }}">Files</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url('admin_backup') }}">Backup</a>
+                        <ul>
+                            <li><a href="{{ url('admin_backup_database') }}">Database</a></li>
+                            <li><a href="{{ url('admin_backup_files') }}">Files</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url('admin_system_service') }}">Services</a></li>
+                    <li><a href="{{ url('admin_system_log') }}">Logs</a></li>
+                    <li><a href="{{ url('admin_rsa') }}">RSA Key</a></li>
+                    <br>
+                    <li><a class="text-muted" href="https://www.casebox.org/">www.casebox.org</a></li>
+                    <li><a class="text-muted" href="http://forum.casebox.org/">Support forum</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-9 col-md-9">
+                <h4>{% block title %}{% endblock %}</h4>
+                <div class="clearfix"></div>
+                {% for label, flashes in app.session.flashbag.all %}
+                    {% for flash in flashes %}
+                        {% if flash %}
+                            <div class="alert alert-{{ label }}">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ flash }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <div class="clearfix"></div>
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<section id="footer" class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include('AppDashboardBundle::javascripts.html.twig') %}
+
+</body>
+
+</html>

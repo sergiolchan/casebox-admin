@@ -1,0 +1,15 @@
+services:
+    app_dashboard.event_subscriber.queue_event_subscriber:
+        class: App\DashboardBundle\EventSubscriber\QueueEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app_dashboard.event_subscriber.log_event_subscriber:
+        class: App\DashboardBundle\EventSubscriber\LoggerEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app_dashboard.event_subscriber.process_result_subscriber:
+        class: App\DashboardBundle\EventSubscriber\ProcessResultEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

@@ -1,0 +1,42 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox core{% endblock %}
+
+{% block body %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Core name</th>
+                <th>Admin email</th>
+                <th>Created at</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if items %}
+                {% for item in items %}
+                    <tr>
+                        <td><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a></td>
+                        <td>{{ item.adminEmail }}</td>
+                        <td>{{ item.createdAt }}</td>
+                        <td>{{ item.actions|raw }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td>No cores available.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul>
+        <li><a href="{{ path('admin_core_add') }}">Add new Casebox core</a></li>
+        <li><a href="{{ path('admin') }}">Go back</a></li>
+    </ul>
+{% endblock %}
+

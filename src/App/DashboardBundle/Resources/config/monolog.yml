@@ -1,0 +1,10 @@
+services:
+    app_dashboard.service.queue_logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: [app]
+        calls:
+            - [pushHandler, ['@app_dashboard.service.queue_logger.logger_handler']]
+
+    app_dashboard.service.queue_logger.logger_handler:
+        class: Monolog\Handler\StreamHandler
+        arguments: ['%kernel.logs_dir%/queue/%kernel.environment%.log', 200]

@@ -1,0 +1,11 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Synchronize database and files{% endblock %}
+
+{% block body %}
+    <ul>
+        <li><a href="{{ url('admin_sync_database') }}">Synchronize database</a></li>
+        <li><a href="{{ url('admin_sync_files') }}">Synchronize files</a></li>
+    </ul>
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox application dashboard{% endblock %}
+
+{% block body %}
+
+    <h4>Casebox cores</h4>
+
+    {% if items %}
+        {% for item in items %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    #{{ item.id }}
+                </div>
+                <div class="panel-body">
+                    <strong>Core: </strong><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a><br>
+                </div>
+                <div class="panel-footer">
+                    <strong>Created at: </strong>{{ item.createdAt }} |
+                    <strong>Last update: </strong>{{ item.updatedAt }}
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    No casebox core found. <a href="{{ path('admin_core_add') }}">Add Casebox core.</a>
+                </div>
+            </div>
+    {% endif %}
+
+{% endblock %}
+

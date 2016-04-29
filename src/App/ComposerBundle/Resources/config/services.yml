@@ -1,0 +1,8 @@
+services:
+    app_composer.service.composer_update_service:
+        class: App\ComposerBundle\Service\ComposerUpdateService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    app_composer.service.composer_update_command_service:
+        class: App\ComposerBundle\Service\ComposerUpdateCommandService

@@ -1,0 +1,29 @@
+app_system_service:
+    resource: "@AppSystemServiceBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app_system_log:
+    resource: "@AppSystemLogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app_backup:
+    resource: "@AppBackupBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app_remote_sync:
+    resource: "@AppRemoteSyncBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app_casebox_core:
+    resource: "@AppCaseboxCoreBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app_dashboard:
+    resource: "@AppDashboardBundle/Controller/"
+    type:     annotation
+    prefix:   /
