@@ -23,9 +23,8 @@ class ComposerUpdateService
      */
     public function update(Core $core)
     {
-        // Mount ecryptfs
+        // Composer update
         $data['app_composer.service.composer_update_command_service']['update'] = ['casebox_core' => $core->getCoreName()];
-
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
         return true;

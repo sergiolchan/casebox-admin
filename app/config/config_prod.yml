@@ -2,6 +2,7 @@ imports:
     - { resource: config.yml }
     - { resource: rabbitmq.yml }
     - { resource: redis.yml }
+    - { resource: ratchet.yml }
 
 #framework:
 #    validation:

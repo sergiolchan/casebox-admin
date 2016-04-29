@@ -1,0 +1,7 @@
+# Redis configuration
+parameters:
+    ratchet:
+        host: 'localhost'
+        port: 8081
+        routes:
+            - { route: '/echo', class: 'Ratchet\Server\EchoServer', params: [ '*' ] }
