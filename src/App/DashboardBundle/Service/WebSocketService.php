@@ -29,10 +29,10 @@ class WebSocketService
         if (!empty($config['routes'])) {
             foreach ($config['routes'] as $vars) {
                 $route = $vars['route'];
-                $class = $vars['class'];
+                $class = new $vars['class']();
                 $params = $vars['params'];
 
-                $app->route($route, new $class, $params);
+                $app->route($route, $class, $params);
             }
         }
 
