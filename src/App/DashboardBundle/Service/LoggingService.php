@@ -14,6 +14,11 @@ class LoggingService
      */
     protected $container;
 
+    public function getLog()
+    {
+        // 
+    }
+    
     /**
      * @return Container
      */

@@ -21,7 +21,7 @@ class RedisService
      *
      * @see http://redis.io/commands/set
      *
-     * @return mixed
+     * @return Client
      */
     public function set($key, $value, $ttl = null)
     {
@@ -65,7 +65,7 @@ class RedisService
     }
 
     /**
-     * @return mixed
+     * @return Client
      */
     public function flushAll()
     {

@@ -20,7 +20,8 @@ class RequestListener
     protected $container;
 
     /**
-     * @param FilterControllerEvent $event
+     * @param GetResponseEvent $event
+     * @return GetResponseEvent
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
@@ -28,6 +29,9 @@ class RequestListener
             // don't do anything if it's not the master request
             return;
         }
+
+        // Sign app
+        $this->container->get('app_dashboard.service.auth_service')->sign();
 
         // Redirect if no ecryptfs installed
         $isEcryptfsPass = $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
