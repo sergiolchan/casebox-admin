@@ -1,23 +1,23 @@
 <?php
 
-namespace App\CaseboxCoreBundle\Repository;
+namespace App\EcryptFsBundle\Repository;
 
 use Api\MicroDbBundle\Interfaces\ObjectInterface;
 use Api\MicroDbBundle\Interfaces\RepositoryInterface;
 use Api\MicroDbBundle\Service\MicroDbService;
-use App\CaseboxCoreBundle\Entity\Core;
+use App\EcryptFsBundle\Entity\Passphrase;
 
 /**
- * CoreRepository
+ * PassphraseRepository
  */
-class CoreRepository extends MicroDbService implements RepositoryInterface
+class PassphraseRepository extends MicroDbService implements RepositoryInterface
 {
     /**
      * @return ObjectInterface
      */
     public function getObjectClass()
     {
-        return Core::class;
+        return Passphrase::class;
     }
 
     /**
@@ -25,6 +25,6 @@ class CoreRepository extends MicroDbService implements RepositoryInterface
      */
     public function getDbAlias()
     {
-        return 'core';
+        return 'passphrase';
     }
 }

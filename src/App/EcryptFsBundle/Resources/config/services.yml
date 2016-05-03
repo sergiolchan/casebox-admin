@@ -9,3 +9,12 @@ services:
         class: App\EcryptFsBundle\Service\EcryptFsCommandService
         calls:
             - [ setContainer, [ '@service_container' ] ]
+
+    app_ecrypt_fs.repository.passphrase_repository:
+        class: App\EcryptFsBundle\Repository\PassphraseRepository
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+            - [ setDbDir, [ '%database_dir%' ] ]
+
+    app_casebox_core.entity.passphrase:
+        class: App\CaseboxCoreBundle\Entity\Passphrase

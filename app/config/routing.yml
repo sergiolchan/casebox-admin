@@ -23,6 +23,11 @@ app_casebox_core:
     type:     annotation
     prefix:   /
 
+app_ecrypt_fs:
+    resource: "@AppEcryptFsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app_dashboard:
     resource: "@AppDashboardBundle/Controller/"
     type:     annotation

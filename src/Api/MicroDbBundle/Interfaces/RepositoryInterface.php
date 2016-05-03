@@ -8,4 +8,9 @@ interface RepositoryInterface
      * @return ObjectInterface 
      */
     public function getObjectClass();
+
+    /**
+     * @return string
+     */
+    public function getDbAlias();
 }

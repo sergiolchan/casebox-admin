@@ -3,8 +3,8 @@
 namespace App\EcryptFsBundle\Service;
 
 use App\DashboardBundle\Event\ProcessResultEvent;
+use App\EcryptFsBundle\Entity\Passphrase;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class EcryptFsService
@@ -17,6 +17,18 @@ class EcryptFsService
     protected $container;
 
     /**
+     * @param string $coreName
+     * @return Passphrase
+     * @throws \Exception
+     */
+    public function getPassphrase()
+    {
+        $passphrase = $this->container->get('app_ecrypt_fs.repository.passphrase_repository')->findOne([]);
+
+        return $passphrase;
+    }
+
+    /**
      * @param string $passphrase
      *
      * @return bool
@@ -24,6 +36,17 @@ class EcryptFsService
      */
     public function passphrase($passphrase)
     {
+        if (!$this->getPassphrase() instanceof Passphrase) {
+            $object = new Passphrase();
+            $object->setHash(sha1($passphrase));
+            $this->container->get('app_ecrypt_fs.repository.passphrase_repository')->save($object);
+        }
+
+        // Validate passphrase
+        if ($this->getPassphrase()->getHash() != sha1($passphrase)) {
+            return false;
+        }
+
         // Try to mount partitions
         // Stop services
         //$data['app_ecrypt_fs.service.ecrypt_fs_command_service']['stopServices'] = ['passphrase' => $passphrase];
@@ -74,7 +97,7 @@ class EcryptFsService
             }
         }
     }
-    
+
     /**
      * @return Container
      */

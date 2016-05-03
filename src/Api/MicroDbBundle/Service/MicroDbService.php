@@ -36,7 +36,6 @@ class MicroDbService
         $fields = [
             'container',
             'db',
-            'dbDir',
         ];
 
         foreach ($fields as $field) {
@@ -68,8 +67,12 @@ class MicroDbService
      *
      * @return ObjectInterface
      */
-    public function save(ObjectInterface $object)
+    public function save(ObjectInterface $object = null)
     {
+        if (!$object instanceof ObjectInterface && $this instanceof ObjectInterface) {
+            $object = $this;
+        }
+
         $vars = get_object_vars($object);
 
         if (empty($vars['id'])) {
@@ -164,16 +167,6 @@ class MicroDbService
     }
 
     /**
-     * @param ObjectInterface $entity
-     *
-     * @return array
-     */
-    protected function toArray(ObjectInterface $entity)
-    {
-        return get_object_vars($entity);
-    }
-
-    /**
      * @return Container
      */
     public function getContainer()
@@ -198,7 +191,7 @@ class MicroDbService
      */
     public function getDb()
     {
-        return $this->db = new \MicroDB\Database($this->container->getParameter('database_dir').'/core');
+        return $this->db = new \MicroDB\Database($this->container->getParameter('database_dir').'/'.$this->getDbAlias());
     }
 
     /**
@@ -219,5 +212,15 @@ class MicroDbService
         $this->dbDir = $dbDir;
 
         return $this;
+    }
+
+    /**
+     * @param ObjectInterface $entity
+     *
+     * @return array
+     */
+    protected function toArray(ObjectInterface $entity)
+    {
+        return get_object_vars($entity);
     }
 }
