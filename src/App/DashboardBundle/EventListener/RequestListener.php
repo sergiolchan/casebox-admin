@@ -12,7 +12,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 class RequestListener
 {
-    const REDIRECT_URL = '/admin/install';
+    const REDIRECT_URL_SECURITY = '/admin/security';
+    const REDIRECT_URL_SECURITY_SETUP = '/admin/security/setup';
 
     /**
      * @var Container
@@ -35,21 +36,19 @@ class RequestListener
 
         // Redirect if no ecryptfs installed
         $isEncrypted = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->isEncrypted();
+        $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
 
-        $urls = [self::REDIRECT_URL];
+        $urls = [self::REDIRECT_URL_SECURITY, self::REDIRECT_URL_SECURITY_SETUP];
 
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
             if (empty($isEncrypted)) {
-                $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
-            } else {
-                //$this->container->get('app_dashboard.service.redis_service')->set('ecryptfs_ready', 1);
+                $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY_SETUP));
             }
         }
 
         if (!empty($isEncrypted)) {
-            $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
-            if (!in_array($event->getRequest()->getRequestUri(), ['/']) && empty($ecryptfsReady)) {
-                $event->setResponse(new RedirectResponse('/'));
+            if (!in_array($event->getRequest()->getRequestUri(), [self::REDIRECT_URL_SECURITY_SETUP]) && empty($ecryptfsReady)) {
+                $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY_SETUP));
             }
         }
     }

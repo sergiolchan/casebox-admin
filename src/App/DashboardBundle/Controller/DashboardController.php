@@ -25,29 +25,18 @@ class DashboardController extends Controller
     {
         $vars['items'] = [];
         $cores = $this->get('app_casebox_core.service.casebox_core_service')->getAllCores();
-
-        $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
-
-        if (!empty($ecryptfsReady)) {
-            foreach ($cores as $core) {
-                if ($core instanceof Core) {
-                    $vars['items'][] = [
-                        'id' => $core->getId(),
-                        'coreName' => $core->getCoreName(),
-                        'adminEmail' => $core->getAdminEmail(),
-                        'createdAt' => $this->formatDate($core->getCreateAt()),
-                        'updatedAt' => (!empty($core->getUpdatedAt())) ? $this->formatDate($core->getUpdatedAt()) : 'N/A',
-                        'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
-                    ];
-                }
+        
+        foreach ($cores as $core) {
+            if ($core instanceof Core) {
+                $vars['items'][] = [
+                    'id' => $core->getId(),
+                    'coreName' => $core->getCoreName(),
+                    'adminEmail' => $core->getAdminEmail(),
+                    'createdAt' => $this->formatDate($core->getCreateAt()),
+                    'updatedAt' => (!empty($core->getUpdatedAt())) ? $this->formatDate($core->getUpdatedAt()) : 'N/A',
+                    'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
+                ];
             }
-        } else {
-            $vars = [
-                'title' => 'Casebox application dashboard',
-                'message' => MessageService::CRYPTFS_PLEASE_WAIT,
-            ];
-
-            return $this->render('AppDashboardBundle:dashboard:empty.html.twig', $vars);
         }
 
         return $this->render('AppDashboardBundle:dashboard:index.html.twig', $vars);

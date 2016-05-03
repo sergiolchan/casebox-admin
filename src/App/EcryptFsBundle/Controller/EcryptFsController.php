@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class EcryptFsController extends Controller
 {
     /**
-     * @Route("/admin/install", name="admin_install")
+     * @Route("/admin/security", name="admin_security")
      * @param Request $request
      *
      * @return Response
@@ -34,13 +34,13 @@ class EcryptFsController extends Controller
             if (empty($data['passphrase']) || empty($data['passphrase_confirmation'])) {
                 $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
 
-                return $this->redirectToRoute('admin_install');
+                return $this->redirectToRoute('admin_security');
             }
             
             if ($data['passphrase'] != $data['passphrase_confirmation']) {
                 $this->addFlash('warning', MessageService::PASSPHRASE_NOT_MATCH);
 
-                return $this->redirectToRoute('admin_install');
+                return $this->redirectToRoute('admin_security');
             }
 
             $result = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->passphrase($data['passphrase']);
@@ -48,15 +48,37 @@ class EcryptFsController extends Controller
             if (empty($result)) {
                 $this->addFlash('warning', MessageService::CRYPTFS_UNABLE_TO_MOUNT);
 
-                return $this->redirectToRoute('admin_install');
+                return $this->redirectToRoute('admin_security');
             } else {
-                return $this->redirectToRoute('admin');
+                return $this->redirectToRoute('admin_security_setup');
             }
         }
 
         $vars['form'] = $form->createView();
 
         return $this->render('AppEcryptFsBundle::passphrase.html.twig', $vars);
+    }
+
+    /**
+     * @Route("/admin/security/setup", name="admin_security_setup")
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function setupAction(Request $request)
+    {
+        $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
+
+        if (empty($ecryptfsReady)) {
+            $vars = [
+                'title' => 'Security setup',
+                'message' => MessageService::CRYPTFS_PLEASE_WAIT,
+            ];
+        } else {
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->render('AppEcryptFsBundle::empty.html.twig', $vars);
     }
 
     /**

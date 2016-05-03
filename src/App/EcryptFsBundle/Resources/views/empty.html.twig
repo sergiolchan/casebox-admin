@@ -1,4 +1,4 @@
-{% extends('AppDashboardBundle::base.html.twig') %}
+{% extends('AppDashboardBundle::empty.html.twig') %}
 
 {% block meta %}<meta HTTP-EQUIV="refresh" CONTENT="5">{% endblock %}
 
@@ -8,8 +8,12 @@
 
     <div class="center-block well">
     {% if message %}
-        <p class="text-center text-muted">{{ message }}</p>
+        <p class="text-center text-muted">{{ message|raw }}</p>
     {% endif %}
     </div>
+
+    <ul>
+        <li><a href="{{ path('admin_security') }}">Go back</a></li>
+    </ul>
 {% endblock %}
 
