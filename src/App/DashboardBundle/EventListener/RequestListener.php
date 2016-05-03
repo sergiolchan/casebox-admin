@@ -42,7 +42,7 @@ class RequestListener
 
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
             if (empty($isEncrypted)) {
-                $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY_SETUP));
+                $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY));
             }
         }
 

@@ -50,6 +50,8 @@ class EcryptFsController extends Controller
 
                 return $this->redirectToRoute('admin_security');
             } else {
+                $this->container->get('app_dashboard.service.redis_service')->set('ecryptfs_ready', 1);
+                    
                 return $this->redirectToRoute('admin_security_setup');
             }
         }
@@ -67,9 +69,9 @@ class EcryptFsController extends Controller
      */
     public function setupAction(Request $request)
     {
-        $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
+        $isEncrypted = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->isEncrypted();
 
-        if (empty($ecryptfsReady)) {
+        if (empty($isEncrypted)) {
             $vars = [
                 'title' => 'Security setup',
                 'message' => MessageService::CRYPTFS_PLEASE_WAIT,

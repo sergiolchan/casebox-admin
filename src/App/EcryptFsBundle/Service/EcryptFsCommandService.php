@@ -46,10 +46,10 @@ class EcryptFsCommandService
     public function mount(array $params = [])
     {
         $folders = [
+            '/var/lib/mysql',
+            '/var/solr/data',
             '/var/www/casebox',
             '/var/www/.lock',
-            '/var/solr/data',
-            '/var/lib/mysql',
         ];
 
         $commands = [];
