@@ -3,6 +3,7 @@
 namespace App\DashboardBundle\Command;
 
 use App\DashboardBundle\Service\MessageService;
+use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,7 +58,7 @@ class AppQueueStartCommand extends ContainerAwareCommand
         if ($pid > 0) {
             $output->success(sprintf(MessageService::PROCESS_QUEUE_STARTED));
 
-            return null;
+            return;
         }
 
         if (posix_setsid() < 0) {
@@ -66,11 +67,7 @@ class AppQueueStartCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $rootDir = $this->getContainer()->getParameter('kernel.root_dir');
-
-        $command = $rootDir.'/../bin/console '.AppQueueRunCommand::APP_QUEUE_RUN_COMMAND;
-
-        if (null === $process = $this->createQueueProcess($output, $command)) {
+        if (null === $process = $this->createQueueProcess($output)) {
             return 1;
         }
 
@@ -98,12 +95,14 @@ class AppQueueStartCommand extends ContainerAwareCommand
 
     /**
      * @param SymfonyStyle $output
-     * @param string $command
      *
      * @return Process The process
      */
-    private function createQueueProcess(SymfonyStyle $output, $command)
+    private function createQueueProcess(SymfonyStyle $output)
     {
+        $rootDir = $this->getContainer()->getParameter('kernel.root_dir');
+        $command = $rootDir.'/../bin/console';
+
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
             $output->error(MessageService::PROCESS_PHP_NOT_FOUND);
@@ -111,9 +110,13 @@ class AppQueueStartCommand extends ContainerAwareCommand
             return null;
         }
 
-        $script = $binary.' '.$command;
+        $script = implode(' ', array_map(array('Symfony\Component\Process\ProcessUtils', 'escapeArgument'), array(
+            $binary,
+            $command,
+            AppQueueRunCommand::APP_QUEUE_RUN_COMMAND
+        )));
 
-        return new Process($script, null, null, null, null);
+        return new Process('exec '.$script, $rootDir, null, null, null);
     }
 
     /**
