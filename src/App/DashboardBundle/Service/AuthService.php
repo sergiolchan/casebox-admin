@@ -3,6 +3,7 @@
 namespace App\DashboardBundle\Service;
 
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AuthService
@@ -22,6 +23,10 @@ class AuthService
     {
         $token = $this->get();
         $this->container->get('twig')->addGlobal('app_token', $token);
+
+        if (!$this->validate()) {
+            throw new \Exception('Wrong app_token provided.', Response::HTTP_FORBIDDEN);
+        }
 
         return $token;
     }

@@ -2,7 +2,11 @@
 
 namespace App\DashboardBundle\Service;
 
-use Ratchet\App;
+use App\DashboardBundle\Service\WebSocketComponent\LoggingsWampPubSub;
+use Ratchet\Http\HttpServer;
+use Ratchet\Server\IoServer;
+use Ratchet\Wamp\WampServer;
+use Ratchet\WebSocket\WsServer;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -24,19 +28,19 @@ class WebSocketService
     {
         $config = $this->container->getParameter('ratchet');
 
-        $app = new App($config['host'], $config['port']);
-
-        if (!empty($config['routes'])) {
-            foreach ($config['routes'] as $vars) {
-                $route = $vars['route'];
-                $class = new $vars['class']();
-                $params = $vars['params'];
-
-                $app->route($route, $class, $params);
-            }
-        }
-
-        $app->run();
+        $server = IoServer::factory(
+            new HttpServer(
+                new WsServer(
+                    new WampServer(
+                        new LoggingsWampPubSub()
+                    )
+                )
+            ),
+            $config['port'],
+            $config['host']
+        );
+        
+        $server->run();
     }
 
     /**

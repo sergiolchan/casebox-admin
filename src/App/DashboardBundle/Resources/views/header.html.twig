@@ -16,7 +16,16 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<script>
-    var appToken = '{{ app_token }}';
-    console.log(appToken);
-</script>
+
+{#<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>#}
+{#<script>#}
+    {#var appToken = '{{ app_token }}';#}
+    {#var conn = new ab.Session('ws://192.168.33.3:8081/',#}
+            {#function() {#}
+            {#},#}
+            {#function() {#}
+                {#console.warn('WebSocket connection closed');#}
+            {#},#}
+            {#{'skipSubprotocolCheck': true}#}
+    {#);#}
+{#</script>#}
