@@ -1,0 +1,15 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block meta %}<meta HTTP-EQUIV="refresh" CONTENT="5">{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    <div class="center-block well">
+    {% if message %}
+        <p class="text-center text-muted">{{ message }}</p>
+    {% endif %}
+    </div>
+{% endblock %}
+

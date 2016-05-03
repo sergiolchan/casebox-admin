@@ -1,0 +1,8 @@
+services:
+
+    app_ecrypt_fs.event_listener.app_process_result_listener:
+        class: App\EcryptFsBundle\EventListener\AppProcessResultListener
+        tags:
+            - { name: kernel.event_listener, event: on.app.process_result, method: onOnAppProcessResult }
+        calls:
+            - [setContainer, ['@service_container']]

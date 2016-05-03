@@ -28,19 +28,30 @@ class DashboardController extends Controller
         $vars['items'] = [];
         $cores = $this->get('app_casebox_core.service.casebox_core_service')->getAllCores();
 
-        foreach ($cores as $core) {
-            if ($core instanceof Core) {
-                $vars['items'][] = [
-                    'id' => $core->getId(),
-                    'coreName' => $core->getCoreName(),
-                    'adminEmail' => $core->getAdminEmail(),
-                    'createdAt' => $this->formatDate($core->getCreateAt()),
-                    'updatedAt' => 'N/A',
-                    'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
-                ];
+        $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
+
+        if (!empty($ecryptfsReady)) {
+            foreach ($cores as $core) {
+                if ($core instanceof Core) {
+                    $vars['items'][] = [
+                        'id' => $core->getId(),
+                        'coreName' => $core->getCoreName(),
+                        'adminEmail' => $core->getAdminEmail(),
+                        'createdAt' => $this->formatDate($core->getCreateAt()),
+                        'updatedAt' => 'N/A',
+                        'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
+                    ];
+                }
             }
+        } else {
+            $vars = [
+                'title' => 'Casebox application dashboard',
+                'message' => MessageService::CRYPTFS_PLEASE_WAIT,
+            ];
+
+            return $this->render('AppDashboardBundle:dashboard:empty.html.twig', $vars);
         }
-        
+
         return $this->render('AppDashboardBundle:dashboard:index.html.twig', $vars);
     }
 
@@ -85,7 +96,9 @@ class DashboardController extends Controller
      */
     public function rsaKeyAction()
     {
-        return $this->render('AppDashboardBundle:rsa:index.html.twig');
+        $vars = $this->container->get('app_dashboard.service.rsa_key_service')->getKeys();
+
+        return $this->render('AppDashboardBundle:rsa:index.html.twig', $vars);
     }
 
     /**

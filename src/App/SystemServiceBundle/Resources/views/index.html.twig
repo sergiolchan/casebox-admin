@@ -3,6 +3,14 @@
 {% block title %}System services and resources{% endblock %}
 
 {% block body %}
-    Coming soon...
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <ul>
+        <li><a href="{{ path('admin_system_service') }}">Go back</a></li>
+    </ul>
+
 {% endblock %}
 

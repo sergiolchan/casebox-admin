@@ -40,7 +40,14 @@ class RequestListener
 
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
             if (empty($isEcryptfsPass)) {
-                return $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
+                $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
+            }
+        }
+
+        if (!empty($isEcryptfsPass)) {
+            $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
+            if (!in_array($event->getRequest()->getRequestUri(), ['/']) && empty($ecryptfsReady)) {
+                $event->setResponse(new RedirectResponse('/'));
             }
         }
     }

@@ -1,4 +1,8 @@
 services:
-#    app_system_service.example:
-#        class: App\SystemServiceBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    app_system_service.service.system_services_command_service:
+        class: App\SystemServiceBundle\Service\SystemServicesCommandService
+
+    app_system_service.service.system_services_service:
+        class: App\SystemServiceBundle\Service\SystemServicesService
+        calls:
+            - [setContainer, ['@service_container']]
