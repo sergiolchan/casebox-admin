@@ -23,9 +23,20 @@ class EcryptFsService
      */
     public function getPassphrase()
     {
+        // $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
         $passphrase = $this->container->get('app_ecrypt_fs.repository.passphrase_repository')->findOne([]);
 
         return $passphrase;
+    }
+
+    /**
+     * @return string
+     */
+    public function isEncrypted()
+    {
+        $output = shell_exec("grep '/var/www/.lock ecryptfs' /etc/mtab");
+
+        return $output;
     }
 
     /**

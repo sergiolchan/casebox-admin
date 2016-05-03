@@ -34,17 +34,17 @@ class RequestListener
         $this->container->get('app_dashboard.service.auth_service')->sign();
 
         // Redirect if no ecryptfs installed
-        $isEcryptfsPass = $this->container->get('app_dashboard.service.redis_service')->get('is_ecryptfs');
+        $isEncrypted = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->isEncrypted();
 
         $urls = [self::REDIRECT_URL];
 
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
-            if (empty($isEcryptfsPass)) {
+            if (empty($isEncrypted)) {
                 $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
             }
         }
 
-        if (!empty($isEcryptfsPass)) {
+        if (!empty($isEncrypted)) {
             $ecryptfsReady = $this->container->get('app_dashboard.service.redis_service')->get('ecryptfs_ready');
             if (!in_array($event->getRequest()->getRequestUri(), ['/']) && empty($ecryptfsReady)) {
                 $event->setResponse(new RedirectResponse('/'));
