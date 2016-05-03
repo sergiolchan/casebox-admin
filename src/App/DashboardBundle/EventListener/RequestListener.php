@@ -41,6 +41,8 @@ class RequestListener
         if (!in_array($event->getRequest()->getRequestUri(), $urls)) {
             if (empty($isEncrypted)) {
                 $event->setResponse(new RedirectResponse(self::REDIRECT_URL));
+            } else {
+                //$this->container->get('app_dashboard.service.redis_service')->set('ecryptfs_ready', 1);
             }
         }
 

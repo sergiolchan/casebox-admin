@@ -21,4 +21,6 @@ class MessageService
     // Service
     const SERVICE_NOT_FOUND             = 'Service not found.';
     const SERVICE_RESTARTED             = '\'%s\' service has been restarted.';
+    // Logs
+    const LOGS_NOT_FOUND                = 'No logs found.';
 }

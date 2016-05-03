@@ -84,9 +84,13 @@ class CommandService
     public function process($alias, $command, $log = true)
     {
         self::$results = [];
-        
-        $this->getLogger()->addInfo(" [*] Run '$alias' command ", [$this->filterOutput($command)]);
-        $this->container->get('event_dispatcher')->dispatch('on.app.logger', new LoggerEvent($this->logger));
+
+        $message = " [*] Run '$alias' command ";
+        $this->getLogger()->addInfo($message, [$this->filterOutput($command)]);
+        $this->container->get('event_dispatcher')->dispatch(
+            'on.app.logger',
+            new LoggerEvent($this->logger, 'success', $message, [$this->filterOutput($command)])
+        );
         $this->log = $log;
 
         $process = new Process($command, null, null, null, null);
@@ -95,8 +99,11 @@ class CommandService
                 $lines = explode(chr(10), $buffer);
 
                 foreach ($lines as $line) {
+                    $state = 'success';
                     if (!empty($line)) {
                         if (Process::ERR === $type) {
+                            $state = 'warning';
+                            
                             if ($this->log)
                                 $this->logger->addError($line, []);
                         } else {
@@ -108,7 +115,7 @@ class CommandService
                             $this
                                 ->container
                                 ->get('event_dispatcher')
-                                ->dispatch('on.app.logger', new LoggerEvent($this->logger))
+                                ->dispatch('on.app.logger', new LoggerEvent($this->logger, $state, $line, []))
                             ;
                         }
                     }

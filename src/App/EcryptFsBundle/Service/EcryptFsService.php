@@ -36,6 +36,8 @@ class EcryptFsService
     {
         $output = shell_exec("grep '/var/www/.lock ecryptfs' /etc/mtab");
 
+        $this->container->get('app_dashboard.service.redis_service')->set('ecryptfs_ready', 1);
+
         return $output;
     }
 

@@ -1,0 +1,8 @@
+services:
+
+    app_system_log.event_listener.app_logger_listener:
+        class: App\SystemLogBundle\EventListener\AppLoggerListener
+        tags:
+            - { name: kernel.event_listener, event: on.app.logger }
+        calls:
+            - [ setContainer, [ '@service_container' ] ]

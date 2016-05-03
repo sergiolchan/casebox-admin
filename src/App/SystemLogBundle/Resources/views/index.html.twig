@@ -1,8 +1,25 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
+{% block meta %}<meta HTTP-EQUIV="refresh" CONTENT="5">{% endblock %}
+
 {% block title %}System logs{% endblock %}
 
 {% block body %}
-    Coming soon...
+    <div class="panel panel-default">
+        <div class="panel-body fixed-panel" style="height: 600px; overflow-y: scroll">
+
+            {{ logs|raw }}
+
+        </div>
+        <div class="panel-footer">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <ul>
+        <li><a href="{{ path('admin_system_log') }}">Go back</a></li>
+    </ul>
 {% endblock %}
 
