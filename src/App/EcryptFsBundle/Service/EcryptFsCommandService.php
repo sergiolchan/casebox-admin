@@ -45,7 +45,18 @@ class EcryptFsCommandService
      */
     public function mount(array $params = [])
     {
-        $commands['mount'] = self::BASE_SCRIPT.' --tags=mount --extra-vars="passphrase='.$params['passphrase'].'"';
+        $folders = [
+            '/var/www/casebox',
+            '/var/www/.lock',
+            '/var/solr/data',
+            '/var/lib/mysql',
+        ];
+
+        $commands = [];
+
+        foreach ($folders as $key => $folder) {
+            $commands['mount_'.$key] = self::BASE_SCRIPT.' --tags=mount --extra-vars="passphrase='.$params['passphrase'].' encrypted_root=\''.$folder.'\'"';
+        }
 
         return $commands;
     }
