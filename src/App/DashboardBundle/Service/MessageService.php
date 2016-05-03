@@ -15,6 +15,7 @@ class MessageService
     const PROCESS_QUEUE_STOPPED         = 'Stopped the queue process.';
     // CryptFS
     const PASSPHRASE_NOT_FOUND          = 'Passphrase not found.';
+    const PASSPHRASE_NOT_MATCH          = 'Provided passphrases doesn\'t match.';
     const CRYPTFS_UNABLE_TO_MOUNT       = 'Unable to mount encrypted folders. Please double check provided passphrase.';
     const CRYPTFS_PLEASE_WAIT           = 'Prepare encrypted folders. Will be ready in few seconds.';
     // Service

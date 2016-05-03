@@ -30,11 +30,19 @@ class EcryptFsController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            if (empty($data['passphrase'])) {
+
+            if (empty($data['passphrase']) || empty($data['passphrase_confirmation'])) {
                 $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
 
                 return $this->redirectToRoute('admin_install');
             }
+            
+            if ($data['passphrase'] != $data['passphrase_confirmation']) {
+                $this->addFlash('warning', MessageService::PASSPHRASE_NOT_MATCH);
+
+                return $this->redirectToRoute('admin_install');
+            }
+
             $result = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->passphrase($data['passphrase']);
 
             if (empty($result)) {
@@ -48,7 +56,7 @@ class EcryptFsController extends Controller
 
         $vars['form'] = $form->createView();
 
-        return $this->render('AppDashboardBundle:dashboard:setup.html.twig', $vars);
+        return $this->render('AppEcryptFsBundle::passphrase.html.twig', $vars);
     }
 
     /**
@@ -62,6 +70,18 @@ class EcryptFsController extends Controller
             PasswordType::class,
             [
                 'label' => 'Passphrase',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-group form-control',
+                ],
+            ]
+        );
+
+        $builder->add(
+            'passphrase_confirmation',
+            PasswordType::class,
+            [
+                'label' => 'Passphrase confirmation',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-group form-control',
