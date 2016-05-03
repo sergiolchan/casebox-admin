@@ -23,6 +23,9 @@ class ComposerUpdateService
      */
     public function update(Core $core)
     {
+        $core->setStatus(Core::STATUS_WORKING);
+        $this->container->get('app_casebox_core.service.casebox_core_service')->editCore($core);
+
         // Composer update
         $data['app_composer.service.composer_update_command_service']['update'] = ['casebox_core' => $core->getCoreName()];
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);

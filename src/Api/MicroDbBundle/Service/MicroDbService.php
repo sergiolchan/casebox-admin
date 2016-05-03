@@ -77,7 +77,7 @@ class MicroDbService
             $vars['id'] = md5(uniqid(rand(), true));
         } else {
             // Find by id
-            $vars = $this->getDb()->load($vars['id']);
+            $vars = array_merge($this->getDb()->load($vars['id']), $vars);
         }
 
         if (empty($vars)) {

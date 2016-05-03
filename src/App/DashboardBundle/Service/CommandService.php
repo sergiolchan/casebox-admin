@@ -48,7 +48,7 @@ class CommandService
     public function execute(array $params)
     {
         $result = [];
-        
+
         foreach ($params as $key => $values) {
             if ($this->container->has($key)) {
                 $service = $this->container->get($key);
@@ -59,8 +59,9 @@ class CommandService
                         $this->logger->addError(sprintf(" [!] ERROR! %s", $e->getMessage()));
                     }
                     foreach ($commands as $alias => $command) {
-                        $result[] = $this->process($alias, $command);
+                        $result[$key][$method]['process'] = $this->process($alias, $command);
                     }
+                    $result[$key][$method]['params'] = $value;
                 }
             }
         }

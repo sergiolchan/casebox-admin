@@ -41,6 +41,14 @@ class CaseboxCoreEventSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * @param CaseboxCoreEvent $event
+     */
+    public function onCaseboxCoreUpdateStatus(CaseboxCoreEvent $event)
+    {
+        // code...
+    }
+
+    /**
      * @return array
      */
     static function getSubscribedEvents()
@@ -49,6 +57,7 @@ class CaseboxCoreEventSubscriber implements EventSubscriberInterface
             'on.app.casebox_core.create' => 'onCaseboxCoreCreate',
             'on.app.casebox_core.edit' => 'onCaseboxCoreEdit',
             'on.app.casebox_core.remove' => 'onCaseboxCoreRemove',
+            'on.app.casebox_core.update_status' => 'onCaseboxCoreUpdateStatus',
         ];
     }
 

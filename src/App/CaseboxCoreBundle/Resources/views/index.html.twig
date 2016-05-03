@@ -1,5 +1,9 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
+{% block meta %}
+<meta HTTP-EQUIV="refresh" CONTENT="10">
+{% endblock %}
+
 {% block title %}Casebox core{% endblock %}
 
 {% block body %}
@@ -11,6 +15,7 @@
                 <th>Core name</th>
                 <th>Admin email</th>
                 <th>Created at</th>
+                <th>Updated at</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -21,6 +26,7 @@
                         <td><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a></td>
                         <td>{{ item.adminEmail }}</td>
                         <td>{{ item.createdAt }}</td>
+                        <td>{{ item.updatedAt }}</td>
                         <td>{{ item.actions|raw }}</td>
                     </tr>
                 {% endfor %}

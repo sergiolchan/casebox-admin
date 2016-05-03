@@ -4,6 +4,9 @@ namespace App\CaseboxCoreBundle\Service;
 
 use App\CaseboxCoreBundle\Entity\Core;
 use App\CaseboxCoreBundle\Event\CaseboxCoreEvent;
+use App\DashboardBundle\Event\ProcessResultEvent;
+use Monolog\Handler\StreamHandler;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -63,6 +66,7 @@ class CaseboxCoreService
         $core->setCoreName($data['coreName']);
         $core->setAdminEmail($data['adminEmail']);
         $core->setSenderEmail($data['senderEmail']);
+        $core->setStatus(Core::STATUS_PENDING);
 
         $this->container->get('app_casebox_core.repository.core_repository')->save($core);
 
@@ -83,6 +87,8 @@ class CaseboxCoreService
      */
     public function editCore(Core $core)
     {
+        $core->setUpdatedAt(time());
+
         $this->container->get('app_casebox_core.repository.core_repository')->save($core);
 
         // Dispatch
@@ -113,6 +119,51 @@ class CaseboxCoreService
         return true;
     }
 
+    public function logging(Logger $logger)
+    {
+        // code...
+    }
+
+    /**
+     * Update object status.
+     *
+     * @param ProcessResultEvent $event
+     */
+    public function onAppProcessResult(ProcessResultEvent $event)
+    {
+        $params = $event->getParams();
+
+        if (!empty($params['app_composer.service.composer_update_command_service'])) {
+            foreach ($params['app_composer.service.composer_update_command_service'] as $method => $values) {
+                if ($method == 'update') {
+                    $coreName = $values['params']['casebox_core'];
+
+                    if (!empty($values['process']['err'])) {
+                        foreach ($values['process']['err'] as $key => $value) {
+                            if (strstr($value, 'WARNING') || empty($value)) {
+                                unset($values['process']['err'][$key]);
+                            }
+                        }
+                    }
+
+                    $status = Core::STATUS_ERROR;
+
+                    if (empty($values['process']['err'])) {
+                        $status = Core::STATUS_DONE;
+                    }
+
+                    $core = $this->getCoreByCoreName($coreName);
+                    if ($core instanceof Core) {
+                        $core->setStatus($status);
+
+                        // Update
+                        $c = $this->editCore($core);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * @param Core $core
      *
@@ -120,7 +171,14 @@ class CaseboxCoreService
      */
     public function getActionsHtml(Core $core)
     {
-        $actions[] = '<a href="/admin/core/'.$core->getId().'/delete">Delete</a>';
+        if (empty($core->getStatus())) {
+            $status = 'N/A';
+        } else {
+            $status = $core->getStatus();
+        }
+
+        //$actions[] = '<a href="/admin/core/'.$core->getId().'/delete">Delete</a>';
+        $actions[] = '<span class="text-muted text-info">'.$status.'</span>';
 
         return implode('', $actions);
     }

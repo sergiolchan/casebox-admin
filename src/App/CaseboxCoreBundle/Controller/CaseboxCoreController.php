@@ -37,7 +37,7 @@ class CaseboxCoreController extends Controller
                     'coreName' => $core->getCoreName(),
                     'adminEmail' => $core->getAdminEmail(),
                     'createdAt' => $this->formatDate($core->getCreateAt()),
-                    'updatedAt' => 'N/A',
+                    'updatedAt' => (!empty($core->getUpdatedAt())) ? $this->formatDate($core->getUpdatedAt()) : 'N/A',
                     'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
                 ];
             }
@@ -92,16 +92,7 @@ class CaseboxCoreController extends Controller
                 ],
             ]
         );
-//        $builder->add(
-//            self::BTN_DELETE,
-//            SubmitType::class,
-//            [
-//                'label' => 'Delete',
-//                'attr' => [
-//                    'class' => 'btn btn-danger',
-//                ],
-//            ]
-//        );
+        
         $form = $builder->getForm();
 
         $form->handleRequest($request);
@@ -130,7 +121,7 @@ class CaseboxCoreController extends Controller
             'adminEmail' => $core->getAdminEmail(),
             'senderEmail' => $core->getSenderEmail(),
             'createdAt' => $this->formatDate($core->getCreateAt()),
-            'updatedAt' => 'N/A',
+            'updatedAt' => (!empty($core->getUpdatedAt())) ? $this->formatDate($core->getUpdatedAt()) : 'N/A',
             'form' => $form->createView(),
         ];
 

@@ -24,7 +24,7 @@ class CaseboxCoreEvent extends Event
         $this->core = $core;
     }
 
-    /**
+    /**CaseboxCoreEvent
      * @return Core
      */
     public function getCore()

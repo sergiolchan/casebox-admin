@@ -1,15 +1,14 @@
 <?php
 
-namespace App\DashboardBundle\EventSubscriber;
+namespace App\CaseboxCoreBundle\EventListener;
 
 use App\DashboardBundle\Event\LoggerEvent;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class LoggerEventSubscriber
+ * Class AppLoggerListener
  */
-class LoggerEventSubscriber implements EventSubscriberInterface
+class AppLoggerListener
 {
     /**
      * @var Container
@@ -19,19 +18,9 @@ class LoggerEventSubscriber implements EventSubscriberInterface
     /**
      * @param LoggerEvent $event
      */
-    public function onAppLogger(LoggerEvent $event)
+    public function onOnAppLogger(LoggerEvent $event)
     {
         // code...
-    }
-
-    /**
-     * @return array
-     */
-    static function getSubscribedEvents()
-    {
-        return [
-            'on.app.logger' => 'onAppLogger',
-        ];
     }
 
     /**
@@ -45,7 +34,7 @@ class LoggerEventSubscriber implements EventSubscriberInterface
     /**
      * @param Container $container
      *
-     * @return LoggerEventSubscriber $this
+     * @return AppLoggerListener $this
      */
     public function setContainer(Container $container)
     {

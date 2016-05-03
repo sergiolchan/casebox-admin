@@ -1,0 +1,15 @@
+services:
+
+    app_casebox_core.event_listener.app_logger_listener:
+        class: App\CaseboxCoreBundle\EventListener\AppLoggerListener
+        tags:
+            - { name: kernel.event_listener, event: on.app.logger }
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+    app_casebox_core.event_listener.app_process_result_listener:
+        class: App\CaseboxCoreBundle\EventListener\AppProcessResultListener
+        tags:
+            - { name: kernel.event_listener, event: on.app.process_result, method: onOnAppProcessResult }
+        calls:
+            - [setContainer, ['@service_container']]

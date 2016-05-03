@@ -11,7 +11,11 @@ use App\CaseboxCoreBundle\Repository\CoreRepository;
 class Core extends CoreRepository implements ObjectInterface
 {
     const LOCALE_DEFAULT = 'en';
-
+    const STATUS_DONE    = 'done';
+    const STATUS_PENDING = 'pending';
+    const STATUS_WORKING = 'working';
+    const STATUS_ERROR   = 'error';
+    
     /**
      * @var integer
      */
@@ -43,6 +47,16 @@ class Core extends CoreRepository implements ObjectInterface
     protected $createAt;
 
     /**
+     * @var integer
+     */
+    protected $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected $status;    
+
+    /**
      * @return string
      */
     public function __toString()
@@ -57,6 +71,7 @@ class Core extends CoreRepository implements ObjectInterface
     {
         $this->locale = self::LOCALE_DEFAULT;
         $this->createAt = time();
+        $this->status = self::STATUS_PENDING;
     }
 
     /**
@@ -175,6 +190,46 @@ class Core extends CoreRepository implements ObjectInterface
     public function setCreateAt($createAt)
     {
         $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param int $updatedAt
+     *
+     * @return Core $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     *
+     * @return Core $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
         return $this;
     }
