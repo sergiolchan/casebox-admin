@@ -36,7 +36,7 @@ class DashboardController extends Controller
                         'coreName' => $core->getCoreName(),
                         'adminEmail' => $core->getAdminEmail(),
                         'createdAt' => $this->formatDate($core->getCreateAt()),
-                        'updatedAt' => 'N/A',
+                        'updatedAt' => (!empty($core->getUpdatedAt())) ? $this->formatDate($core->getUpdatedAt()) : 'N/A',
                         'actions' => $this->get('app_casebox_core.service.casebox_core_service')->getActionsHtml($core),
                     ];
                 }

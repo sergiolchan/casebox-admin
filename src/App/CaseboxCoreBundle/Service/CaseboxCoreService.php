@@ -133,6 +133,23 @@ class CaseboxCoreService
     {
         $params = $event->getParams();
 
+        // Install
+        if (!empty($params['app_casebox_core.service.casebox_core_command_service'])) {
+            foreach ($params['app_casebox_core.service.casebox_core_command_service'] as $method => $values) {
+                if ($method == 'create') {
+                    // @todo - Code refactoring. Catch ansible (provision) warnings.
+                    $status = Core::STATUS_DONE;
+                    $core = $this->getCoreByCoreName(trim($values['params']['casebox_core']));
+                    if ($core instanceof Core) {
+                        $core->setStatus($status);
+                        // Update
+                        $this->editCore($core);
+                    }
+                }
+            }
+        }
+
+        // Composer update
         if (!empty($params['app_composer.service.composer_update_command_service'])) {
             foreach ($params['app_composer.service.composer_update_command_service'] as $method => $values) {
                 if ($method == 'update') {
@@ -157,7 +174,7 @@ class CaseboxCoreService
                         $core->setStatus($status);
 
                         // Update
-                        $c = $this->editCore($core);
+                        $this->editCore($core);
                     }
                 }
             }
@@ -171,14 +188,23 @@ class CaseboxCoreService
      */
     public function getActionsHtml(Core $core)
     {
+        $type = 'success';
+
         if (empty($core->getStatus())) {
             $status = 'N/A';
         } else {
             $status = $core->getStatus();
+
+            if ($status == Core::STATUS_ERROR) {
+                $type = 'warning';
+            }
+
+            if ($status == Core::STATUS_WORKING) {
+                $type = 'info';
+            }
         }
 
-        //$actions[] = '<a href="/admin/core/'.$core->getId().'/delete">Delete</a>';
-        $actions[] = '<span class="text-muted text-info">'.$status.'</span>';
+        $actions[] = '<span class="text-muted text-'.$type.'">'.$status.'</span>';
 
         return implode('', $actions);
     }
