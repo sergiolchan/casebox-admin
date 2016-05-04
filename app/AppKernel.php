@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new App\EcryptFsBundle\AppEcryptFsBundle(),
             new Api\MicroDbBundle\ApiMicroDbBundle(),
             new App\ComposerBundle\AppComposerBundle(),
+            new App\ShareBundle\AppShareBundle(),
         ];
 
         return $bundles;

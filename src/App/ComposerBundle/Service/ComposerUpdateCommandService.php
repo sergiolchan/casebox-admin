@@ -11,6 +11,7 @@ class ComposerUpdateCommandService
 
     /**
      * @param array $params
+     *
      * @return array
      */
     public function update(array $params = [])

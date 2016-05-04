@@ -1,0 +1,25 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox sharing (SAMBA){% endblock %}
+
+{% block body %}
+
+    <p>Casebox is already shared via SAMBA.</p>
+
+    <p>
+        You can mount Casebox sources into your host machine via SAMBA using following address <br>
+
+    <ul>
+        <li>
+            <strong>//192.168.33.3/casebox</strong> for Gnu/Linux or MacOS <br>
+        </li>
+        <li>
+            <strong>\\192.168.33.3\casebox</strong> for Windows <br>
+        </li>
+
+    </ul>
+
+    SAMBA <strong>vagrant</strong> user password: <strong>vagrant</strong>
+    </p>
+
+{% endblock %}

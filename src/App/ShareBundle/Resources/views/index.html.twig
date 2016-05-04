@@ -1,0 +1,13 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Casebox sharing (SAMBA){% endblock %}
+
+{% block body %}
+
+    <p>Casebox is not shared. Click on button bellow to install SAMBA and share Casebox sources.</p>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}

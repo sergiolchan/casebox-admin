@@ -1,0 +1,8 @@
+services:
+    app_share.service.share_service:
+        class: App\ShareBundle\Service\ShareService
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+    app_share.service.share_command_service:
+        class: App\ShareBundle\Service\ShareCommandService
