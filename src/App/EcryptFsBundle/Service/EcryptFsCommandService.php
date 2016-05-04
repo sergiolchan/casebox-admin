@@ -58,10 +58,6 @@ class EcryptFsCommandService
             $commands['mount_'.$key] = self::BASE_SCRIPT.' --tags=mount --extra-vars="passphrase='.$params['passphrase'].' encrypted_root=\''.$folder.'\'"';
         }
 
-        $commands['nginx'] = 'service nginx restart';
-        $commands['mysql'] = 'service mysql restart';
-        $commands['solr'] = 'service solr restart';
-
         return $commands;
     }
 
