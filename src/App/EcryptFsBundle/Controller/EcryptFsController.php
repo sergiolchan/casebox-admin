@@ -23,9 +23,9 @@ class EcryptFsController extends Controller
      */
     public function installAction(Request $request)
     {
-        $vars['items'] = [];
+        $cores = $this->get('app_casebox_core.repository.core_repository')->find();
 
-        $form = $this->setupGetForm();
+        $form = $this->setupGetForm($cores);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,6 +57,7 @@ class EcryptFsController extends Controller
         }
 
         $vars['form'] = $form->createView();
+        $vars['cores'] = $cores;
 
         return $this->render('AppEcryptFsBundle::passphrase.html.twig', $vars);
     }
@@ -71,22 +72,23 @@ class EcryptFsController extends Controller
     {
         $isEncrypted = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->isEncrypted();
 
-        if (empty($isEncrypted)) {
-            $vars = [
-                'title' => 'Security setup',
-                'message' => MessageService::CRYPTFS_PLEASE_WAIT,
-            ];
-        } else {
+        if (!empty($isEncrypted)) {
             return $this->redirectToRoute('admin');
         }
 
+        $vars = [
+            'title' => 'Security setup',
+            'message' => MessageService::CRYPTFS_PLEASE_WAIT,
+        ];
+        
         return $this->render('AppEcryptFsBundle::empty.html.twig', $vars);
     }
 
     /**
+     * @param array|null $confirm
      * @return \Symfony\Component\Form\Form
      */
-    protected function setupGetForm()
+    protected function setupGetForm($confirm = null)
     {
         $builder = $this->createFormBuilder([]);
         $builder->add(
@@ -101,20 +103,22 @@ class EcryptFsController extends Controller
             ]
         );
 
-        $builder->add(
-            'passphrase_confirmation',
-            PasswordType::class,
-            [
-                'label' => 'Passphrase confirmation',
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-group form-control',
-                ],
-            ]
-        );
+        if (empty($confirm)) {
+            $builder->add(
+                'passphrase_confirmation',
+                PasswordType::class,
+                [
+                    'label' => 'Passphrase confirmation',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-group form-control',
+                    ],
+                ]
+            );
+        }
 
         $builder->add(
-            'delete',
+            'submit',
             SubmitType::class,
             [
                 'label' => 'Submit',

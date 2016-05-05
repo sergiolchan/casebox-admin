@@ -17,7 +17,7 @@ class MessageService
     const PASSPHRASE_NOT_FOUND          = 'Passphrase not found.';
     const PASSPHRASE_NOT_MATCH          = 'Provided passphrases doesn\'t match.';
     const CRYPTFS_UNABLE_TO_MOUNT       = 'Unable to mount encrypted folders. Please double check provided passphrase.';
-    const CRYPTFS_PLEASE_WAIT           = 'Prepare encrypted folders. <br>Will be ready in few seconds.';
+    const CRYPTFS_PLEASE_WAIT           = 'Prepare encrypted folders. Will be redirected to Casebox admin UI dashboard in few seconds.';
     // Service
     const SERVICE_NOT_FOUND             = 'Service not found.';
     const SERVICE_RESTARTED             = '\'%s\' service has been restarted.';

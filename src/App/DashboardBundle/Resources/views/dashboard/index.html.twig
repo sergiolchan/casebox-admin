@@ -1,26 +1,46 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
-{% block title %}Casebox application dashboard{% endblock %}
+{% block title %}Casebox admin UI dashboard{% endblock %}
 
 {% block body %}
 
     <h4>Casebox cores</h4>
 
+    <p class="text-muted">Click on core name to review core details.</p>
+
     {% if items %}
-        {% for item in items %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    #{{ item.id }}
-                </div>
-                <div class="panel-body">
-                    <strong>Core: </strong><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a><br>
-                </div>
-                <div class="panel-footer">
-                    <strong>Created at: </strong>{{ item.createdAt }} |
-                    <strong>Last update: </strong>{{ item.updatedAt }}
-                </div>
-            </div>
-        {% endfor %}
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Core name</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if items %}
+                    {% for item in items %}
+                        <tr>
+                            <td><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a></td>
+                            <td>{{ item.createdAt }}</td>
+                            <td>{{ item.updatedAt }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td></td>
+                        <td>No cores available.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul>
+            <li><a href="{{ path('admin_core_add') }}">Add new Casebox core</a></li>
+        </ul>
 
     {% else %}
             <div class="panel panel-default">

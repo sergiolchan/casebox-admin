@@ -20,7 +20,6 @@ class SystemServicesService
      */
     public static $services = [
         'nginx' => 'nginx',
-        'mysql' => 'mysql',
         'solr' => 'solr',
     ];
 

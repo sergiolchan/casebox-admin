@@ -8,10 +8,14 @@
         Before setup and start casebox environment,
         please provide folder encryption passphrase and hit Submit button.
     </p>
+
+    {% if not cores %}
     <p>
         <span class="text-warning">Attention!</span> Please memorize provided encryption passphrase.
         If you will lose encryption passphrase, you will not be able to recover your encrypted files.
     </p>
+
+    {% endif %}
 
     <hr>
 

@@ -6,11 +6,7 @@
 
 {% block body %}
 
-    <div class="center-block well">
-    {% if message %}
-        <p class="text-center text-muted">{{ message|raw }}</p>
-    {% endif %}
-    </div>
+    <p>{{ message|raw }}</p>
 
     <ul>
         <li><a href="{{ path('admin_security') }}">Go back</a></li>

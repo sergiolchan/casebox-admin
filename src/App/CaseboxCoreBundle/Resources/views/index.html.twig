@@ -7,13 +7,13 @@
 {% block title %}Casebox core{% endblock %}
 
 {% block body %}
+    <p class="text-muted">Click on core name to review core details.</p>
 
     <div class="table-responsive">
         <table class="table">
             <thead>
             <tr>
                 <th>Core name</th>
-                <th>Admin email</th>
                 <th>Created at</th>
                 <th>Updated at</th>
                 <th>Status</th>
@@ -24,7 +24,6 @@
                 {% for item in items %}
                     <tr>
                         <td><a href="{{ url('admin_core_view', {'id':item.id}) }}">{{ item.coreName }}</a></td>
-                        <td>{{ item.adminEmail }}</td>
                         <td>{{ item.createdAt }}</td>
                         <td>{{ item.updatedAt }}</td>
                         <td>{{ item.actions|raw }}</td>
