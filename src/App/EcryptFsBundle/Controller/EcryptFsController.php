@@ -93,6 +93,12 @@ class EcryptFsController extends Controller
      */
     public function reloadAction(Request $request)
     {
+        $isReloadNeede = $this->container->get('app_ecrypt_fs.service.ecrypt_fs_service')->isReloadNeeded();
+
+        if (!$isReloadNeede) {
+            return $this->redirectToRoute('admin');
+        }
+
         $vars = [
             'title' => 'Vagrant reload needed!',
             'message' => MessageService::PASSPHRASE_REALOD,
