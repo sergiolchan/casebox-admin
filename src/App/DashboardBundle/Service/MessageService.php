@@ -26,6 +26,6 @@ class MessageService
     const LOGS_NOT_FOUND                = 'No logs found.';
     const LOGS_VIEW                     = 'You can watch the execution progress  on the <a href="/admin/logs">logs page</a>.';
     // Core
-    const CORE_ADD                      = 'Please be patient. Casebox core will be created in about %d minutes.';
-    const CORE_FIRST_TIME_ADD           = 'Please be patient. For first time Casebox core will be created in about %d minutes.';
+    const CORE_ADD                      = 'Casebox core will be created in about %d minutes.';
+    const CORE_FIRST_TIME_ADD           = 'For first time Casebox core will be created in about %d minutes.';
 }
