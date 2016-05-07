@@ -94,7 +94,7 @@ class EcryptFsController extends Controller
     public function reloadAction(Request $request)
     {
         $vars = [
-            'title' => '<span class="text-warning">Vagrant reload</span>',
+            'title' => 'Vagrant reload needed!',
             'message' => MessageService::PASSPHRASE_REALOD,
         ];
 
