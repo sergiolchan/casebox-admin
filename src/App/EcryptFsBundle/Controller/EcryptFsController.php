@@ -31,13 +31,13 @@ class EcryptFsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if (empty($data['passphrase']) || empty($data['passphrase_confirmation'])) {
+            if (empty($data['passphrase'])) {
                 $this->addFlash('warning', MessageService::PASSPHRASE_NOT_FOUND);
 
                 return $this->redirectToRoute('admin_security');
             }
             
-            if ($data['passphrase'] != $data['passphrase_confirmation']) {
+            if (empty($cores) && ($data['passphrase'] != $data['passphrase_confirmation'])) {
                 $this->addFlash('warning', MessageService::PASSPHRASE_NOT_MATCH);
 
                 return $this->redirectToRoute('admin_security');
