@@ -84,6 +84,24 @@ class EcryptFsController extends Controller
         return $this->render('AppEcryptFsBundle::empty.html.twig', $vars);
     }
 
+
+    /**
+     * @Route("/admin/security/reload", name="admin_security_reload")
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function reloadAction(Request $request)
+    {
+        $vars = [
+            'title' => '<span class="text-warning">Vagrant reload</span>',
+            'message' => MessageService::PASSPHRASE_REALOD,
+        ];
+
+        return $this->render('AppEcryptFsBundle::empty.html.twig', $vars);
+    }
+
+
     /**
      * @param array|null $confirm
      * @return \Symfony\Component\Form\Form

@@ -15,12 +15,17 @@ class MessageService
     const PROCESS_QUEUE_STOPPED         = 'Stopped the queue process.';
     // CryptFS
     const PASSPHRASE_NOT_FOUND          = 'Passphrase not found.';
+    const PASSPHRASE_REALOD             = 'In order to apply software and security configurations, please run <code>vagrant reload</code> command in console.';
     const PASSPHRASE_NOT_MATCH          = 'Provided passphrases doesn\'t match.';
     const CRYPTFS_UNABLE_TO_MOUNT       = 'Unable to mount encrypted folders. Please double check provided passphrase.';
-    const CRYPTFS_PLEASE_WAIT           = 'Prepare encrypted folders. Will be redirected to Casebox admin UI dashboard in few seconds.';
+    const CRYPTFS_PLEASE_WAIT           = 'Prepare encrypted folders. It takes around <b>10-20</b> seconds. Please be patient, you will be redirected to Casebox admin UI dashboard automatically.';
     // Service
     const SERVICE_NOT_FOUND             = 'Service not found.';
     const SERVICE_RESTARTED             = '\'%s\' service has been restarted.';
     // Logs
     const LOGS_NOT_FOUND                = 'No logs found.';
+    const LOGS_VIEW                     = 'You can watch the execution progress  on the <a href="/admin/logs">logs page</a>.';
+    // Core
+    const CORE_ADD                      = 'Please be patient. Casebox core will be created in about %d minutes.';
+    const CORE_FIRST_TIME_ADD           = 'Please be patient. For first time Casebox core will be created in about %d minutes.';
 }

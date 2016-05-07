@@ -4,6 +4,7 @@ namespace App\CaseboxCoreBundle\Controller;
 
 use App\CaseboxCoreBundle\Entity\Core;
 use App\CaseboxCoreBundle\Form\CoreType;
+use App\DashboardBundle\Service\MessageService;
 use App\DashboardBundle\Traits\DateTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -59,6 +60,17 @@ class CaseboxCoreController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('app_casebox_core.service.casebox_core_service')->addCore($form->getData());
+
+            $message = sprintf(MessageService::CORE_ADD, 2);
+            
+            $cores = $this->get('app_casebox_core.repository.core_repository')->find();
+            if (empty($cores)) {
+                $message = sprintf(MessageService::CORE_FIRST_TIME_ADD, 7);
+            }
+
+            $message .= MessageService::LOGS_VIEW;
+
+            $this->addFlash('warning', $message);
 
             return $this->redirectToRoute('admin_core');
         }

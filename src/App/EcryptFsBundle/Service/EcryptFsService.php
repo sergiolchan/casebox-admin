@@ -5,6 +5,7 @@ namespace App\EcryptFsBundle\Service;
 use App\DashboardBundle\Event\ProcessResultEvent;
 use App\EcryptFsBundle\Entity\Passphrase;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class EcryptFsService
@@ -27,6 +28,19 @@ class EcryptFsService
         $passphrase = $this->container->get('app_ecrypt_fs.repository.passphrase_repository')->findOne([]);
 
         return $passphrase;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReloadNeeded()
+    {
+        $fs = new Filesystem();
+        if ($fs->exists('/home/vagrant/.reload')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
