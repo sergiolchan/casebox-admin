@@ -3,6 +3,13 @@
 {% block title %}Backup files{% endblock %}
 
 {% block body %}
-    Coming soon...
-{% endblock %}
 
+    <p>Download (<a href="https://filezilla-project.org/download.php?type=client" target="_blank">https://filezilla-project.org/download.php?type=client</a>) and install FileZilla.</p>
+    <p>Launch FileZilla program.</p>
+    <img src="{{ asset('bundles/appbackup/img/image039.png') }}" width="100%" height="100%">
+    <p>Open Site Manager and add New Site</p>
+    <img src="{{ asset('bundles/appbackup/img/image041.png') }}" width="100%" height="100%">
+    <p>Navigate to remote site folder <code>/var/www/casebox/var/files</code></p>
+    <img src="{{ asset('bundles/appbackup/img/image043.png') }}" width="100%" height="100%">
+
+{% endblock %}

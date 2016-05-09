@@ -3,6 +3,27 @@
 {% block title %}Backup database{% endblock %}
 
 {% block body %}
-    Coming soon...
+
+    <p>Download (<a href="https://www.mysql.com/products/workbench" target="_blank">https://www.mysql.com/products/workbench</a>) and install MySQL Workbench program.</p>
+    <p>Login to vagrant (virtualbox) box. Run command: <code>vagrant ssh</code></p>
+    <p>Switch to super user (root): <code>sudo su</code></p>
+    <p>Display mysql root password: <code>cat ~/.mysql.root.password</code></p>
+    <p>Copy mysql root password.</p>
+    <img src="{{ asset('bundles/appbackup/img/image023.png') }}" width="100%" height="100%">
+    <p>Launch MySQL Workbench and setup new connection.</p>
+    <img src="{{ asset('bundles/appbackup/img/image025.png') }}" width="100%" height="100%">
+    <p>Setup New Connection</p>
+    <img src="{{ asset('bundles/appbackup/img/image027.png') }}" width="100%" height="100%">
+    <p>Test Connection</p>
+    <img src="{{ asset('bundles/appbackup/img/image029.png') }}" width="100%" height="100%">
+    <p>Connect to MySQL server</p>
+    <img src="{{ asset('bundles/appbackup/img/image031.png') }}" width="100%" height="100%">
+    <p>MySQL Workbench UI</p>
+    <img src="{{ asset('bundles/appbackup/img/image033.png') }}" width="100%" height="100%">
+    <p>Data export</p>
+    <img src="{{ asset('bundles/appbackup/img/image035.png') }}" width="100%" height="100%">
+    <p>Export done!</p>
+    <img src="{{ asset('bundles/appbackup/img/image037.png') }}" width="100%" height="100%">
+
 {% endblock %}
 
