@@ -17,11 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CaseboxCoreController extends Controller
 {
-    const BTN_UPDATE = 'update';
-    const BTN_DELETE = 'delete';
-
-    use DateTrait;
+    const BTN_UPDATE     = 'update';
+    const BTN_CLEARCACHE = 'clear';
+    const BTN_DELETE     = 'delete';
     
+    use DateTrait;
+
     /**
      * @Route("/admin/core", name="admin_core")
      * @return Response
@@ -62,7 +63,7 @@ class CaseboxCoreController extends Controller
             $this->get('app_casebox_core.service.casebox_core_service')->addCore($form->getData());
 
             $message = sprintf(MessageService::CORE_ADD, 2);
-            
+
             $cores = $this->get('app_casebox_core.repository.core_repository')->find();
             if (empty($cores)) {
                 $message = sprintf(MessageService::CORE_FIRST_TIME_ADD, 7);
@@ -100,11 +101,22 @@ class CaseboxCoreController extends Controller
             [
                 'label' => 'Composer update',
                 'attr' => [
-                    'class' => 'btn btn-info',
+                    'class' => 'btn btn-default form-group',
                 ],
             ]
         );
-        
+
+        $builder->add(
+            self::BTN_CLEARCACHE,
+            SubmitType::class,
+            [
+                'label' => 'Clear cache',
+                'attr' => [
+                    'class' => 'btn btn-default form-group',
+                ],
+            ]
+        );
+
         $form = $builder->getForm();
 
         $form->handleRequest($request);
@@ -116,7 +128,12 @@ class CaseboxCoreController extends Controller
 
                     break;
 
-                case  self::BTN_DELETE:
+                case self::BTN_CLEARCACHE:
+                    $this->get('app_clear_cache.service.clear_cache_service')->clear($core);
+
+                    break;
+
+                case self::BTN_DELETE:
                     $this->get('app_casebox_core.service.casebox_core_service')->deleteCore($core);
 
                     break;

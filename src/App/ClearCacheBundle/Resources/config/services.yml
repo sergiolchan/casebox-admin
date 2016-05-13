@@ -1,0 +1,8 @@
+services:
+    app_clear_cache.service.clear_cache_command_service:
+        class: App\ClearCacheBundle\Service\ClearCacheCommandService
+
+    app_clear_cache.service.clear_cache_service:
+        class: App\ClearCacheBundle\Service\ClearCacheService
+        calls:
+            - [setContainer, ['@service_container']]

@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new Api\MicroDbBundle\ApiMicroDbBundle(),
             new App\ComposerBundle\AppComposerBundle(),
             new App\ShareBundle\AppShareBundle(),
+            new App\ClearCacheBundle\AppClearCacheBundle(),
         ];
 
         return $bundles;
