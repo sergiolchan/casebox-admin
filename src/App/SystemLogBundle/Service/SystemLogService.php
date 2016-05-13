@@ -36,7 +36,7 @@ class SystemLogService
         }
 
         if (empty($result['logs'])) {
-            $result['logs'] = '<p>'.MessageService::LOGS_NOT_FOUND.'</p>';
+            $result['logs'] = '<p style="color:white;" ">'.MessageService::LOGS_NOT_FOUND.'</p>';
         }
         
         return $result;
