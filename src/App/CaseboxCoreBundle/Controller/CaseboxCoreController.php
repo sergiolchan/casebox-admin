@@ -60,7 +60,15 @@ class CaseboxCoreController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app_casebox_core.service.casebox_core_service')->addCore($form->getData());
+            $data = $form->getData();
+
+            if ($data['coreName'] == 'test') {
+                $this->addFlash('warning', sprintf(MessageService::CORE_ADD_FAIL, $data['coreName']));
+
+                return $this->redirectToRoute('admin_core');
+            }
+
+            $this->get('app_casebox_core.service.casebox_core_service')->addCore($data);
 
             $message = sprintf(MessageService::CORE_ADD, 2);
 
@@ -124,11 +132,13 @@ class CaseboxCoreController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             switch ($form->getClickedButton()->getName()) {
                 case self::BTN_UPDATE:
+                    $this->addFlash('success', MessageService::REQUEST_SUCCESS.' '.MessageService::LOGS_VIEW);
                     $this->get('app_composer.service.composer_update_service')->update($core);
 
                     break;
 
                 case self::BTN_CLEARCACHE:
+                    $this->addFlash('success', MessageService::REQUEST_SUCCESS.' '.MessageService::LOGS_VIEW);
                     $this->get('app_clear_cache.service.clear_cache_service')->clear($core);
 
                     break;

@@ -24,8 +24,12 @@ class MessageService
     const SERVICE_RESTARTED             = '\'%s\' service has been restarted.';
     // Logs
     const LOGS_NOT_FOUND                = 'No logs found.';
-    const LOGS_VIEW                     = 'You can watch the execution progress  on the <a href="/admin/logs">logs page</a>.';
+    const LOGS_VIEW                     = 'You can watch the execution progress on the <a href="/admin/logs">logs page</a>.';
     // Core
     const CORE_ADD                      = 'Casebox core will be created in about %d minutes.';
     const CORE_FIRST_TIME_ADD           = 'For first time Casebox core will be created in about %d minutes.';
+    const CORE_ADD_FAIL                 = 'Sorry, you cand create \'%s\' environment from Admin UI.';
+    // Share
+    const REQUEST_SUCCESS               = 'Request successfully send.';
+    const SHARE_SUCCESS                 = 'SAMBA will be installed in 10 seconds.';
 }

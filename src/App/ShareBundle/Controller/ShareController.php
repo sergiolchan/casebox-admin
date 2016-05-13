@@ -2,6 +2,7 @@
 
 namespace App\ShareBundle\Controller;
 
+use App\DashboardBundle\Service\MessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,6 +32,7 @@ class ShareController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('app_share.service.share_service')->install();
+            $this->addFlash('success', MessageService::SHARE_SUCCESS.' '.MessageService::LOGS_VIEW);
 
             return $this->redirectToRoute('admin_share');
         }
