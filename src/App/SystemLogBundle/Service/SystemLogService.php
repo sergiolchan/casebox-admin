@@ -89,10 +89,10 @@ class SystemLogService
      */
     public function getLogHtml(array $item)
     {
-        $type = 'success';
+        $type = 'default';
         
         if (!empty($item['type'])) {
-            //$type = $item['type'];
+            $type = $item['type'];
         }
 
         $message = '';

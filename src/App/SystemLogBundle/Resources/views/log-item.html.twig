@@ -1,8 +1,8 @@
 <div class="log-item">
-    <p class="bg-{{ type }}" style="padding: 10px;">
-        [ {{ timestamp }} ] {{ message }}
+    <p style="color: white;">
+        <span class="bg-{{ type }}" style="color: black;">[ {{ timestamp }} ]</span> {{ message }}
         {% if context %}
-            <span class="text-muted">{{ context }}</span>
+            <span class="text-muted">[ {{ context }} ]</span>
         {% endif %}
     </p>
 </div>
