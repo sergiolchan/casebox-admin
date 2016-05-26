@@ -1,9 +1,5 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
-{% block meta %}
-<meta HTTP-EQUIV="refresh" CONTENT="10">
-{% endblock %}
-
 {% block title %}Casebox core{% endblock %}
 
 {% block body %}
@@ -38,6 +34,8 @@
             </tbody>
         </table>
     </div>
+
+    {% include 'AppDashboardBundle::auto-refresh.html.twig' %}
 
     <ul>
         <li><a href="{{ path('admin_core_add') }}">Add new Casebox core</a></li>

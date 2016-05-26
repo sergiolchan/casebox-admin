@@ -1,0 +1,26 @@
+<form name="auto-refresh" style="text-align: right;">
+    <input type="checkbox" checked="checked" name="autoRefreshCheckboxes">  Disable auto refresh</input>
+</form>
+
+<script type="text/javascript">
+    (function ($) {
+
+        $(document).ready(function () {
+
+            timedRefresh(5000);
+
+            function timedRefresh(timeoutPeriod) {
+                var interval = setInterval(refreshPage, timeoutPeriod);
+            }
+
+            function refreshPage() {
+                if ($("input[name=autoRefreshCheckboxes]").is(":checked")) {
+                    location.reload(true);
+                }
+            }
+        });
+
+    })(jQuery);
+
+</script>
+

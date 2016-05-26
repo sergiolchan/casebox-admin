@@ -36,9 +36,9 @@ class SystemLogService
         }
 
         if (empty($result['logs'])) {
-            $result['logs'] = '<p style="color:white;" ">'.MessageService::LOGS_NOT_FOUND.'</p>';
+            $result['logs'] = '<p style="color:silver;" ">'.MessageService::LOGS_NOT_FOUND.'</p>';
         }
-        
+
         return $result;
     }
 
@@ -61,7 +61,11 @@ class SystemLogService
 
         array_unshift($logsArray, $element);
 
-        $this->container->get('app_dashboard.service.redis_service')->set('queue_logs', json_encode($logsArray), 60 * 60 * 5);
+        $this->container->get('app_dashboard.service.redis_service')->set(
+            'queue_logs',
+            json_encode($logsArray),
+            60 * 60 * 5
+        );
 
         return $logsArray;
     }
@@ -90,7 +94,7 @@ class SystemLogService
     public function getLogHtml(array $item)
     {
         $type = 'default';
-        
+
         if (!empty($item['type'])) {
             $type = $item['type'];
         }
@@ -120,7 +124,7 @@ class SystemLogService
 
         return $html;
     }
-    
+
     /**
      * @return Container
      */

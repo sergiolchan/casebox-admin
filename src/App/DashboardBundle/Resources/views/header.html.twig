@@ -17,15 +17,7 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-{#<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>#}
-{#<script>#}
-    {#var appToken = '{{ app_token }}';#}
-    {#var conn = new ab.Session('ws://192.168.33.3:8081/',#}
-            {#function() {#}
-            {#},#}
-            {#function() {#}
-                {#console.warn('WebSocket connection closed');#}
-            {#},#}
-            {#{'skipSubprotocolCheck': true}#}
-    {#);#}
-{#</script>#}
+<!-- jQuery -->
+<script src="{{ asset('bundles/appdashboard/js/jquery.js') }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('bundles/appdashboard/js/bootstrap.min.js') }}"></script>

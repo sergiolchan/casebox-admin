@@ -1,12 +1,12 @@
 {% extends('AppDashboardBundle::empty.html.twig') %}
 
-{% block meta %}<meta HTTP-EQUIV="refresh" CONTENT="5">{% endblock %}
-
 {% block title %}{{ title|raw }}{% endblock %}
 
 {% block body %}
 
     <p>{{ message|raw }}</p>
+
+    {% include 'AppDashboardBundle::auto-refresh.html.twig' %}
 
     <ul>
         <li><a href="{{ path('admin_security') }}">Go back</a></li>
