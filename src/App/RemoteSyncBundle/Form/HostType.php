@@ -61,6 +61,18 @@ class HostType extends AbstractType
         );
 
         $builder->add(
+            'description',
+            TextType::class,
+            [
+                'label' => 'Description',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-group form-control',
+                ],
+            ]
+        );
+
+        $builder->add(
             'save',
             SubmitType::class,
             [

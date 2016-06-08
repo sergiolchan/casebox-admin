@@ -34,6 +34,11 @@ class Host extends HostRepository implements ObjectInterface
     protected $environment;
 
     /**
+     * @var string
+     */
+    protected $description;
+    
+    /**
      * @return string
      */
     public function __toString()
@@ -138,6 +143,26 @@ class Host extends HostRepository implements ObjectInterface
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     *
+     * @return Host $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
         return $this;
     }

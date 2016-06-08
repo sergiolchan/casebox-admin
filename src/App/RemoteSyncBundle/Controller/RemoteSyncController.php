@@ -2,7 +2,6 @@
 
 namespace App\RemoteSyncBundle\Controller;
 
-use Api\MicroDbBundle\Interfaces\ObjectInterface;
 use App\DashboardBundle\Service\MessageService;
 use App\RemoteSyncBundle\Entity\Host;
 use App\RemoteSyncBundle\Form\HostType;
@@ -39,6 +38,7 @@ class RemoteSyncController extends Controller
                     'address' => $host->getAddress(),
                     'environment' => $host->getEnvironment(),
                     'docroot' => $host->getDocroot(),
+                    'description' => $host->getDescription(),
                 ];
             }
         }
@@ -290,6 +290,7 @@ class RemoteSyncController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            // code...
         }
 
         return $vars = [

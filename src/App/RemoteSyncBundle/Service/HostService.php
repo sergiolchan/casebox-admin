@@ -66,6 +66,7 @@ class HostService
         $host->setAddress($data['address']);
         $host->setDocroot($data['docroot']);
         $host->setEnvironment($data['environment']);
+        $host->setDescription($data['description']);
         $this->container->get('app_remote_sync.repository.host_repository')->save($host);
 
         return $host;
