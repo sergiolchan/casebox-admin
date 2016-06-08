@@ -3,9 +3,45 @@
 {% block title %}Synchronize database and files{% endblock %}
 
 {% block body %}
+    <p class="text-muted">Click on host name to review core details.</p>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Address</th>
+                <th>Environment</th>
+                <th>Document root</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if items %}
+                {% for item in items %}
+                    <tr>
+                        <td><a href="{{ url('admin_host_view', {'id':item.id}) }}">{{ item.address }}</a></td>
+                        <td>{{ item.environment }}</td>
+                        <td>{{ item.docroot }}</td>
+                        <td><a href="{{ url('admin_host_view', {'id':item.id}) }}">delete</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td>No hosts available.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
     <ul>
-        <li><a href="{{ url('admin_sync_database') }}">Synchronize database</a></li>
-        <li><a href="{{ url('admin_sync_files') }}">Synchronize files</a></li>
+        <li><a href="{{ url('admin_host_add') }}">Add new host</a></li>
+    </ul>
+
+    <ul>
+        <li><a href="{{ url('admin_sync_source', {'type':'database'}) }}">Synchronize database</a></li>
+        <li><a href="{{ url('admin_sync_source', {'type':'files'}) }}">Synchronize files</a></li>
     </ul>
 {% endblock %}
 

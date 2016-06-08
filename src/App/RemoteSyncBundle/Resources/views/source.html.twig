@@ -1,8 +1,9 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
-{% block title %}Synchronize database{% endblock %}
+{% block title %}Casebox sync source{% endblock %}
 
 {% block body %}
+
     <div class="core-view-form clearfix">
         {{ form_start(form) }}
         {{ form_errors(form) }}
@@ -11,7 +12,7 @@
     </div>
 
     <ul>
-        <li><a href="{{ path('admin_sync_source') }}">Go back</a></li>
+        <li><a href="{{ path('admin_sync') }}">Go back</a></li>
     </ul>
 {% endblock %}
 

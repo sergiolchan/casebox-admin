@@ -3,6 +3,15 @@
 {% block title %}Synchronize files{% endblock %}
 
 {% block body %}
-    Coming soon...
+    <div class="core-view-form clearfix">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+    <ul>
+        <li><a href="{{ path('admin_sync_source') }}">Go back</a></li>
+    </ul>
 {% endblock %}
 

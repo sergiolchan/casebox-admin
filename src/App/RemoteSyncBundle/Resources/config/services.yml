@@ -1,4 +1,17 @@
 services:
-#    app_remote_sync.example:
-#        class: App\RemoteSyncBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    # Entity repository
+    app_remote_sync.repository.host_repository:
+        class: App\RemoteSyncBundle\Repository\HostRepository
+        calls:
+            - [setDbDir, ['%database_dir%']]
+            - [setContainer, ['@service_container']]
+
+    app_remote_sync.service.host_service:
+        class: App\RemoteSyncBundle\Service\HostService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    app_remote_sync.service.environment_service:
+        class: App\RemoteSyncBundle\Service\EnvironmentService
+        calls:
+            - [setContainer, ['@service_container']]

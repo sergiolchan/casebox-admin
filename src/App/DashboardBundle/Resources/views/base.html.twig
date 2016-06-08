@@ -19,8 +19,8 @@
                     <li><a href="{{ url('admin_core') }}">Casebox Cores</a></li>
                     <li><a href="{{ url('admin_sync') }}">Remote Sync</a>
                         <ul>
-                            <li><a href="{{ url('admin_sync_database') }}">Database</a></li>
-                            <li><a href="{{ url('admin_sync_files') }}">Files</a></li>
+                            <li><a href="{{ url('admin_sync_source', {'type':'database'}) }}">Database</a></li>
+                            <li><a href="{{ url('admin_sync_source', {'type':'files'}) }}">Files</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ url('admin_backup') }}">Backup</a>

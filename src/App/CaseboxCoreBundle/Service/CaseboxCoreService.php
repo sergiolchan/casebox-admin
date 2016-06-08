@@ -119,11 +119,6 @@ class CaseboxCoreService
         return true;
     }
 
-    public function logging(Logger $logger)
-    {
-        // code...
-    }
-
     /**
      * Update object status.
      *

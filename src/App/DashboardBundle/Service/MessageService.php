@@ -2,8 +2,13 @@
 
 namespace App\DashboardBundle\Service;
 
+/**
+ * Class MessageService
+ */
 class MessageService
 {
+    // Process
+    const APP_ERROR                     = 'Sorry, something goes wrong. Please try again';
     // Process
     const PROCESS_PCNTL_NOT_FOUND       = 'This command needs the pcntl extension to run.';
     const PROCESS_PHP_NOT_FOUND         = 'Unable to find PHP binary to start queue process.';
@@ -28,8 +33,14 @@ class MessageService
     // Core
     const CORE_ADD                      = 'Casebox core will be created in about %d minutes.';
     const CORE_FIRST_TIME_ADD           = 'For first time Casebox core will be created in about %d minutes.';
-    const CORE_ADD_FAIL                 = 'Sorry, you cand create \'%s\' environment from Admin UI.';
+    const CORE_ADD_FAIL                 = 'Sorry, you can\'t create \'%s\' environment from Admin UI.';
     // Share
     const REQUEST_SUCCESS               = 'Request successfully send.';
     const SHARE_SUCCESS                 = 'SAMBA will be installed in 10 seconds.';
+    // Host
+    const HOST_ADD_FAIL                 = 'Sorry, you can\'t create \'%s\' host.';
+    const HOST_ADD                      = 'Host successfully created.';
+    const HOST_EXIST                    = 'Host %s already exist.';
+    // Sync
+    const SYNC_SOURCE_NOT_SOUND         = 'Synchronization source not found.';
 }
