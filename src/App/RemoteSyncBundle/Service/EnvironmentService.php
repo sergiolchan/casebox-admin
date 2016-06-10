@@ -23,7 +23,7 @@ class EnvironmentService
     {
         $environments = [
             'Remote environment' => $this->getHostEnvironments(),
-            'Local cores' => $this->getCoreEnvironments(),
+            'Local environment' => $this->getCoreEnvironments(),
         ];
 
         return $environments;

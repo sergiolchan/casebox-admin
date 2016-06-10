@@ -62,7 +62,7 @@ class RemoteSyncController extends Controller
             'type',
             ChoiceType::class,
             [
-                'label' => 'Select what to synchronise?',
+                'label' => 'Select what do you want to synchronise, database or files?',
                 'choices' => [
                     'database' => 'database',
                     'files' => 'files',
@@ -78,7 +78,7 @@ class RemoteSyncController extends Controller
             'source',
             ChoiceType::class,
             [
-                'label' => 'Select synchronisation source (from).',
+                'label' => 'Choose the environment you would like to synchronise from:',
                 'choices' => $this->container->get('app_remote_sync.service.environment_service')->getAllEnvironments(),
                 'required' => true,
                 'attr' => [
@@ -217,235 +217,13 @@ class RemoteSyncController extends Controller
      */
     public function syncAction(Request $request, $type, $source, $name)
     {
-        $vars = $this->getSyncVars($request, $type, $source, $name);
+        $vars = $this->get('app_remote_sync.service.remote_sync_service')->getSyncVars($request, $type, $source, $name);
+
+        if (!empty($vars['message'])) {
+            $this->addFlash('success', $vars['message']);
+        }
 
         return $this->render('AppRemoteSyncBundle::sync.html.twig', $vars);
-    }
-
-    /**
-     * @param Request $request
-     * @param string  $type
-     * @param string  $source
-     * @param string  $name
-     *
-     * @return array
-     */
-    protected function getSyncVars(Request $request, $type, $source, $name = '')
-    {
-        $builder = $this->createFormBuilder([]);
-
-        $choices = [];
-        if ($source == 'core') {
-            $to = 'remote';
-            $from = 'local';
-            $choices = $this->container->get('app_remote_sync.service.environment_service')->getHostEnvironments();
-        }
-        if ($source == 'host') {
-            $to = 'local';
-            $from = 'remote';
-            $choices = $this->container->get('app_remote_sync.service.environment_service')->getCoreEnvironments();
-        }
-
-        $builder->add(
-            'name',
-            TextType::class,
-            [
-                'label' => sprintf('Sync %s from %s source', $type, $from),
-                'data' => $name,
-                'required' => true,
-                'disabled' => true,
-                'attr' => [
-                    'class' => 'form-group form-control',
-                ],
-            ]
-        );
-
-        $builder->add(
-            '_from',
-            HiddenType::class,
-            [
-                'data' => $from,
-            ]
-        );
-        $builder->add(
-            '_to',
-            HiddenType::class,
-            [
-                'data' => $to,
-            ]
-        );
-        $builder->add(
-            '_type',
-            HiddenType::class,
-            [
-                'data' => $type,
-            ]
-        );
-        $builder->add(
-            '_name',
-            HiddenType::class,
-            [
-                'data' => $name,
-            ]
-        );
-        $builder->add(
-            '_source',
-            HiddenType::class,
-            [
-                'data' => $source,
-            ]
-        );
-
-        $builder->add(
-            'destination',
-            ChoiceType::class,
-            [
-                'label' => sprintf('Select %s environment to synchronise.', $to),
-                'choices' => $choices,
-                'required' => true,
-                'attr' => [
-                    'class' => 'form-group form-control',
-                ],
-            ]
-        );
-
-        $builder->add(
-            'submit',
-            SubmitType::class,
-            [
-                'label' => 'Synchronise',
-                'attr' => [
-                    'class' => 'btn btn-info form-group form-control',
-                ],
-            ]
-        );
-
-        $form = $builder->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $destination = explode(':', $data['destination']);
-            $data['_destination_source'] = $destination[0];
-            $data['_destination_name'] = $destination[1];
-
-            if ($data['_type'] == 'files') {
-                // code...
-            }
-
-            if ($data['_type'] == 'database') {
-                $dbBackupFile = '/tmp/'.time().'-'.$data['_name'].'.sql';
-
-                if ($data['_from'] == 'remote') {
-                    $localParamsFile = '/var/www/casebox/app/config/'.$data['_destination_name'].'/parameters.yml';
-                    $remoteParamsFile = '/var/www/casebox/app/config/'.$data['_name'].'/parameters.yml';
-
-                    $obj = $this->container->get('app_remote_sync.service.host_service')->getHostByEnvironment(
-                        $data['_name']
-                    );
-                    preg_match('/([^@]*)@([^:]*):([^$]*)/is', $obj->getAddress(), $match);
-
-                    // Backup remote db.
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
-                        'ssh_user' => $match[1],
-                        'ssh_host' => $match[2],
-                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
-                        // DB
-                        'sql_file' => $dbBackupFile,
-                        'parameters_file' => $remoteParamsFile,
-                        'tag' => 'backup',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-
-                    // Sync
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.file_sync_command_service']['command'] = [
-                        'ssh_user' => $match[1],
-                        'ssh_host' => $match[2],
-                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
-                        // File
-                        'terminator' => false,
-                        'source' => $dbBackupFile,
-                        'destination' => $dbBackupFile,
-                        'tag' => 'remote',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-
-                    // Restore db.
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
-                        'ssh_user' => 'vagrant',
-                        'ssh_host' => 'localhost',
-                        'ssh_port' => 22,
-                        // DB
-                        'sql_file' => $dbBackupFile,
-                        'parameters_file' => $localParamsFile,
-                        'tag' => 'restore',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-                }
-
-                if ($data['_from'] == 'local') {
-                    $localParamsFile = '/var/www/casebox/app/config/'.$data['_name'].'/parameters.yml';
-                    $remoteParamsFile = '/var/www/casebox/app/config/'.$data['_destination_name'].'/parameters.yml';
-
-                    // Backup local db.
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
-                        'ssh_user' => 'vagrant',
-                        'ssh_host' => 'localhost',
-                        'ssh_port' => 22,
-                        // DB
-                        'sql_file' => $dbBackupFile,
-                        'parameters_file' => $localParamsFile,
-                        'tag' => 'backup',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-
-                    // Sync.
-                    $obj = $this->container->get('app_remote_sync.service.host_service')->getHostByEnvironment(
-                        $data['_destination_name']
-                    );
-                    preg_match('/([^@]*)@([^:]*):([^$]*)/is', $obj->getAddress(), $match);
-
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.file_sync_command_service']['command'] = [
-                        'ssh_user' => $match[1],
-                        'ssh_host' => $match[2],
-                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
-                        // ...
-                        'terminator' => false,
-                        'source' => $dbBackupFile,
-                        'destination' => $dbBackupFile,
-                        'tag' => 'local',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-
-                    // Restore db.
-                    $cmd = [];
-                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
-                        'ssh_user' => $match[1],
-                        'ssh_host' => $match[2],
-                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
-                        // DB
-                        'sql_file' => $dbBackupFile,
-                        'parameters_file' => $remoteParamsFile,
-                        'docroot' => $obj->getDocroot(),
-                        'tag' => 'restore',
-                    ];
-                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-                }
-
-                $message = sprintf(MessageService::SYNC_ADD, 2).MessageService::LOGS_VIEW;
-                $this->addFlash('success', $message);
-            }
-        }
-
-        return $vars = [
-            'form' => $form->createView(),
-        ];
     }
 
     /**

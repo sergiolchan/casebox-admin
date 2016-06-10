@@ -17,6 +17,11 @@ services:
         calls:
             - [setContainer, ['@service_container']]
 
+    app_remote_sync.service.remote_sync_service:
+        class: App\RemoteSyncBundle\Service\RemoteSyncService
+        calls:
+            - [setContainer, ['@service_container']]
+
     # Commands
     app_remote_sync.service.file_sync_command_service:
         class: App\RemoteSyncBundle\Service\FileSyncCommandService
