@@ -41,6 +41,19 @@ class QueueService
     }
 
     /**
+     * @return bool
+     */
+    public function queueClear()
+    {
+        $connection = $this->connection();
+        $channel = $connection->channel();
+        $channel->queue_purge(self::APP_QUEUE_COMMAND);
+        $channel->close();
+
+        return $connection->close();
+    }
+
+    /**
      * @param array $data
      * @param string $queueChannel
      *

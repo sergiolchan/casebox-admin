@@ -79,7 +79,7 @@ class CaseboxCoreController extends Controller
 
             $message .= MessageService::LOGS_VIEW;
 
-            $this->addFlash('warning', $message);
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('admin_core');
         }

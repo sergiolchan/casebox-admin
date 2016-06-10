@@ -43,4 +43,5 @@ class MessageService
     const HOST_EXIST                    = 'Host %s already exist.';
     // Sync
     const SYNC_SOURCE_NOT_SOUND         = 'Synchronization source not found.';
+    const SYNC_ADD                      = 'Synchronization started.';
 }

@@ -6,6 +6,7 @@ services:
             - [setDbDir, ['%database_dir%']]
             - [setContainer, ['@service_container']]
 
+    # Services
     app_remote_sync.service.host_service:
         class: App\RemoteSyncBundle\Service\HostService
         calls:
@@ -15,3 +16,10 @@ services:
         class: App\RemoteSyncBundle\Service\EnvironmentService
         calls:
             - [setContainer, ['@service_container']]
+
+    # Commands
+    app_remote_sync.service.file_sync_command_service:
+        class: App\RemoteSyncBundle\Service\FileSyncCommandService
+
+    app_remote_sync.service.database_command_service:
+        class: App\RemoteSyncBundle\Service\DatabaseCommandService
