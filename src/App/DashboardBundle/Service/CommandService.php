@@ -16,7 +16,7 @@ use Symfony\Component\Process\Process;
 class CommandService
 {
     use StringTrait;
-    
+
     /**
      * @var Container
      */
@@ -65,7 +65,7 @@ class CommandService
                 }
             }
         }
-        
+
         // Dispatch result
         $this
             ->container
@@ -103,7 +103,7 @@ class CommandService
                     if (!empty($line)) {
                         if (Process::ERR === $type) {
                             $state = 'warning';
-                            
+
                             if ($this->log)
                                 $this->logger->addError($line, []);
                         } else {
@@ -125,7 +125,7 @@ class CommandService
 
             }
         );
-        
+
         return self::$results;
     }
 
@@ -137,7 +137,7 @@ class CommandService
     {
         return $this->logger = $this->container->get('app_dashboard.service.queue_logger');
     }
-    
+
     /**
      * @return Container
      */

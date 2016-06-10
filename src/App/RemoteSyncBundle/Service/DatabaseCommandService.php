@@ -14,17 +14,18 @@ class DatabaseCommandService
      */
     public function command(array $params)
     {
-        $sshUser = (!empty($params['ssh_user'])) ? $params['ssh_user'] : 'vagrant';
-        $sshHost = (!empty($params['ssh_host'])) ? $params['ssh_host'] : 'localhost';
-        $sshPort = (!empty($params['ssh_port'])) ? $params['ssh_port'] : 22;
+        $sshUser = $params['ssh_user'];
+        $sshHost = $params['ssh_host'];
+        $sshPort = $params['ssh_port'];
 
         $sqlFile = $params['sql_file'];
         $parFile = $params['parameters_file'];
         $tag = $params['tag'];
+        $docroot = (!empty($params['docroot'])) ? $params['docroot'] : '/var/www/casebox';
 
         $script = 'ansible-playbook -i "'.$sshHost.'," --user='.$sshUser.' /var/provision/ansible/sync/database.yml';
 
-        $commands['sync'] = $script.' --tags='.$tag.' --extra-vars="ansible_ssh_port='.$sshPort.' sql_file=\''.$sqlFile.'\' parameters_file=\''.$parFile.'\'"';
+        $commands['sync'] = $script.' --tags='.$tag.' --extra-vars="ansible_ssh_port='.$sshPort.' sql_file=\''.$sqlFile.'\' parameters_file=\''.$parFile.'\' docroot=\''.$docroot.'\'"';
 
         return $commands;
     }

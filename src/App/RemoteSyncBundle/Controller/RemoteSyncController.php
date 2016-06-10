@@ -330,36 +330,66 @@ class RemoteSyncController extends Controller
             $data['_destination_source'] = $destination[0];
             $data['_destination_name'] = $destination[1];
 
-            $sshDefault = [
-                'ssh_user' => 'vagrant',
-                'ssh_host' => 'localhost',
-                'ssh_port' => 22,
-            ];
-
-            if ($data['_from'] == 'local') {
-                $sshFrom = $sshDefault;
-            } elseif ($data['_from'] == 'remote' && $data['_source'] == 'host') {
-                $obj = $this->container->get('app_remote_sync.service.host_service')->getHostByEnvironment(
-                    $data['_name']
-                );
-                preg_match('/([^@]*)@([^:]*):([^$]*)/is', $obj->getAddress(), $match);
-                $sshFrom = [
-                    'ssh_user' => $match[1],
-                    'ssh_host' => $match[2],
-                    'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
-                ];
-            }
-
             if ($data['_type'] == 'files') {
                 // code...
             }
 
             if ($data['_type'] == 'database') {
+                $dbBackupFile = '/tmp/'.time().'-'.$data['_name'].'.sql';
+
+                if ($data['_from'] == 'remote') {
+                    $localParamsFile = '/var/www/casebox/app/config/'.$data['_destination_name'].'/parameters.yml';
+                    $remoteParamsFile = '/var/www/casebox/app/config/'.$data['_name'].'/parameters.yml';
+
+                    $obj = $this->container->get('app_remote_sync.service.host_service')->getHostByEnvironment(
+                        $data['_name']
+                    );
+                    preg_match('/([^@]*)@([^:]*):([^$]*)/is', $obj->getAddress(), $match);
+
+                    // Backup remote db.
+                    $cmd = [];
+                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
+                        'ssh_user' => $match[1],
+                        'ssh_host' => $match[2],
+                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
+                        // DB
+                        'sql_file' => $dbBackupFile,
+                        'parameters_file' => $remoteParamsFile,
+                        'tag' => 'backup',
+                    ];
+                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
+
+                    // Sync
+                    $cmd = [];
+                    $cmd['app_remote_sync.service.file_sync_command_service']['command'] = [
+                        'ssh_user' => $match[1],
+                        'ssh_host' => $match[2],
+                        'ssh_port' => (!empty($match[3])) ? $match[3] : 22,
+                        // File
+                        'terminator' => false,
+                        'source' => $dbBackupFile,
+                        'destination' => $dbBackupFile,
+                        'tag' => 'remote',
+                    ];
+                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
+
+                    // Restore db.
+                    $cmd = [];
+                    $cmd['app_remote_sync.service.database_command_service']['command'] = [
+                        'ssh_user' => 'vagrant',
+                        'ssh_host' => 'localhost',
+                        'ssh_port' => 22,
+                        // DB
+                        'sql_file' => $dbBackupFile,
+                        'parameters_file' => $localParamsFile,
+                        'tag' => 'restore',
+                    ];
+                    $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
+                }
+
                 if ($data['_from'] == 'local') {
                     $localParamsFile = '/var/www/casebox/app/config/'.$data['_name'].'/parameters.yml';
                     $remoteParamsFile = '/var/www/casebox/app/config/'.$data['_destination_name'].'/parameters.yml';
-
-                    $dbBackupFile = '/tmp/'.time().'-'.$data['_name'].'.sql';
 
                     // Backup local db.
                     $cmd = [];
@@ -406,10 +436,10 @@ class RemoteSyncController extends Controller
                         'tag' => 'restore',
                     ];
                     $this->container->get('app_dashboard.service.queue_service')->queueWrite($cmd);
-
-                    $message = sprintf(MessageService::SYNC_ADD, 2).MessageService::LOGS_VIEW;
-                    $this->addFlash('success', $message);
                 }
+
+                $message = sprintf(MessageService::SYNC_ADD, 2).MessageService::LOGS_VIEW;
+                $this->addFlash('success', $message);
             }
         }
 

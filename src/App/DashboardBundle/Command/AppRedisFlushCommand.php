@@ -23,7 +23,7 @@ class AppRedisFlushCommand extends ContainerAwareCommand
 
         $this->getContainer()->get('app_dashboard.service.redis_service')->flushAll();
 
-        $output->success("[x] DONE!");
+        $output->success("DONE!");
     }
 
 }
