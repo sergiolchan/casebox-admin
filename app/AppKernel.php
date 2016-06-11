@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new App\ComposerBundle\AppComposerBundle(),
             new App\ShareBundle\AppShareBundle(),
             new App\ClearCacheBundle\AppClearCacheBundle(),
+            new App\RestoreBundle\AppRestoreBundle(),
         ];
 
         return $bundles;

@@ -1,0 +1,5 @@
+services:
+    app_restore.service.restore_service:
+        class: App\RestoreBundle\Service\RestoreService
+        calls:
+            - [setContainer, ['@service_container']]

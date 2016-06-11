@@ -44,4 +44,6 @@ class MessageService
     // Sync
     const SYNC_SOURCE_NOT_SOUND         = 'Synchronization source not found.';
     const SYNC_ADD                      = 'Synchronization started.';
+    // Restore
+    const RESTORE_SOURCE_NOT_SOUND      = 'Restore source not found.';
 }

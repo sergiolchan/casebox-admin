@@ -1,0 +1,40 @@
+{% extends('AppDashboardBundle::base.html.twig') %}
+
+{% block title %}Restore{% endblock %}
+
+{% block body %}
+    <p class="text-muted">Select database to restore from.</p>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>File</th>
+                <th>Size</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if items %}
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.file }}</td>
+                        <td>{{ item.size }}</td>
+                        <td><a href="{{ url('admin_restore_database', {'id':item.id}) }}">restore</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td></td>
+                    <td>No backups available.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul>
+        <li><a href="{{ url('admin_restore') }}">Go back</a></li>
+    </ul>
+{% endblock %}
+

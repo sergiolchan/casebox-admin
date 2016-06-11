@@ -17,10 +17,15 @@
                 <ul class="main-menu">
                     <li><a href="{{ url('admin') }}">Dashboard</a></li>
                     <li><a href="{{ url('admin_core') }}">Casebox Cores</a></li>
-                    <li><a href="{{ url('admin_sync') }}">Sync & Restore</a>
+                    <li><a href="{{ url('admin_sync') }}">Synchronization</a>
                         <ul>
                             <li><a href="{{ url('admin_sync_source', {'type':'database'}) }}">Database</a></li>
                             <li><a href="{{ url('admin_sync_source', {'type':'files'}) }}">Files</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url('admin_restore') }}">Restore</a>
+                        <ul>
+                            <li><a href="{{ url('admin_restore') }}">Database</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ url('admin_backup') }}">Backup</a>
