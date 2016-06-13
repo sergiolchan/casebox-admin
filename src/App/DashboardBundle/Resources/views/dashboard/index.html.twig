@@ -1,8 +1,14 @@
 {% extends('AppDashboardBundle::base.html.twig') %}
 
-{% block title %}Casebox admin UI dashboard{% endblock %}
+{% block title %}Casebox Admin UI dashboard{% endblock %}
 
 {% block body %}
+
+    <h4>Performance</h4>
+
+    {{ statistics|raw }}
+
+    <hr>
 
     <h4>Casebox cores</h4>
 

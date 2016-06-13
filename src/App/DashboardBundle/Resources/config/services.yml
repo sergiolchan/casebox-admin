@@ -36,3 +36,8 @@ services:
         class: App\DashboardBundle\Service\RsaKeyService
         calls:
             - [setContainer, ['@service_container']]
+
+    app_dashboard.service.statistics_service:
+        class: App\DashboardBundle\Service\StatisticsService
+        calls:
+            - [setContainer, ['@service_container']]

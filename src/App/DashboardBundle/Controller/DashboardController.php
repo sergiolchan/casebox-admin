@@ -39,6 +39,8 @@ class DashboardController extends Controller
             }
         }
 
+        $vars['statistics'] = $this->get('app_dashboard.service.statistics_service')->getHostStatisticsHtml();
+
         return $this->render('AppDashboardBundle:dashboard:index.html.twig', $vars);
     }
 

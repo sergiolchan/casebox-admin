@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="active">
+            {% for item in header %}
+                {% if (item.class) %}
+                    <th class="{{ item.class }}">{{ item.data|raw }}</th>
+                {% else %}
+                    <th>{{ item.data|raw }}</th>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% if (rows) %}
+            {% for row in rows %}
+                <tr>
+                    {% for item in row %}
+                        {% if (item.class) %}
+                            <th class="{{ item.class }}">{{ item.data|raw }}</th>
+                        {% else %}
+                            <th>{{ item.data|raw }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    {% if not (rows) %}
+        <p>No data found.</p>
+    {% endif %}
+</div>

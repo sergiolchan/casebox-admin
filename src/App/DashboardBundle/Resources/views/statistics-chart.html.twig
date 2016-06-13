@@ -1,0 +1,55 @@
+<div>
+    <div class="col-lg-4 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="icon-cpu-processor" style="font-size: 60px;"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">Used: {{ cpu_used }}</div>
+                        <div class="">Free: {{ cpu_free }}</div>
+                        <h4>CPU</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="icon-ram" style="font-size: 60px;"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">Used: {{ mem_used }}</div>
+                        <div class="">Free: {{ mem_free }}</div>
+                        <h4>RAM</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="icon-bandwidth" style="font-size: 60px;"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">Received: {{ net_recv }}</div>
+                        <div class="">Send: {{ net_send }}</div>
+                        <h4>Network</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h4>HDD</h4>
+    {{ disk_usage|raw }}
+</div>
