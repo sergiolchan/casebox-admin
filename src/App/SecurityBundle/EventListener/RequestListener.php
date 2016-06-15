@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use App\DashboardBundle\EventListener\RequestListener as DashboardRequestListener;
 
 /**
  * Class RequestListener
@@ -21,6 +22,7 @@ class RequestListener
 
     /**
      * @param GetResponseEvent $event
+     *
      * @return GetResponseEvent
      */
     public function onKernelRequest(GetResponseEvent $event)
@@ -30,11 +32,16 @@ class RequestListener
             return;
         }
 
+        $urls = [
+            self::REDIRECT_URL_SECURITY_APP,
+            DashboardRequestListener::REDIRECT_URL_SECURITY,
+            DashboardRequestListener::REDIRECT_URL_SECURITY_SETUP,
+            DashboardRequestListener::REDIRECT_URL_SECURITY_RELOAD,
+        ];
+
         $isSecured = $this->container->get('app_security.service.security_service')->isSecured();
-        if (!in_array($event->getRequest()->getRequestUri(), [self::REDIRECT_URL_SECURITY_APP])) {
-            if (empty($isSecured)) {
-                $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY_APP));
-            }
+        if (!in_array($event->getRequest()->getRequestUri(), $urls) && empty($isSecured)) {
+            $event->setResponse(new RedirectResponse(self::REDIRECT_URL_SECURITY_APP));
         }
     }
 
