@@ -46,4 +46,8 @@ class MessageService
     const SYNC_ADD                      = 'Synchronization started.';
     // Restore
     const RESTORE_SOURCE_NOT_SOUND      = 'Restore source not found.';
+    // Security
+    const PASSWORD_NOT_FOUND            = 'Password not found.';
+    const PASSWORD_NOT_MATCH            = 'Provided password doesn\'t match.';
+    const PASSWORD_INVALID              = 'Wrong password provided.';
 }

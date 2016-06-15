@@ -1,0 +1,17 @@
+services:
+    app_security.service.security_service:
+        class: App\SecurityBundle\Service\SecurityService
+        calls:
+            - [setContainer, ['@service_container']]
+
+    app_security.event_listener.request_listener:
+        class: App\SecurityBundle\EventListener\RequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    app_security.repository.master_password_repository:
+        class: App\SecurityBundle\Repository\MasterPasswordRepository
+        calls:
+            - [setContainer, ['@service_container']]

@@ -1,3 +1,8 @@
+app_security:
+    resource: "@AppSecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app_restore:
     resource: "@AppRestoreBundle/Controller/"
     type:     annotation
