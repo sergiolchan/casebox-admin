@@ -4,6 +4,7 @@ namespace App\CaseboxCoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -55,6 +56,18 @@ class CoreType extends AbstractType
                 'attr' => [
                     'class' => 'form-group form-control',
                     'placeholder' => 'Example: noreply@example.com.',
+                ],
+            ]
+        );
+
+        $builder->add(
+            'rootPassword',
+            PasswordType::class,
+            [
+                'label' => 'Casebox root password',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-group form-control',
                 ],
             ]
         );

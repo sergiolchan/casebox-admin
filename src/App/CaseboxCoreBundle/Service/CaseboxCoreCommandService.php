@@ -23,7 +23,7 @@ class CaseboxCoreCommandService
      */
     public function create($params = null)
     {
-        $commands['install'] = self::BASE_SCRIPT.' --tags=install --extra-vars="casebox_core='.$params['casebox_core'].'"';
+        $commands['install'] = self::BASE_SCRIPT.' --tags=install --extra-vars="casebox_core='.$params['casebox_core'].' admin_email='.$params['admin_email'].' sender_email='.$params['sender_email'].' root_password='.$params['root_password'].'"';
         
         return $commands;
     }

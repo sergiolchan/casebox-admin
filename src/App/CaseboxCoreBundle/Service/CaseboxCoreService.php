@@ -74,7 +74,13 @@ class CaseboxCoreService
         $this->container->get('event_dispatcher')->dispatch('on.app.casebox_core.create', new CaseboxCoreEvent($core));
 
         // Write command to queue
-        $data['app_casebox_core.service.casebox_core_command_service']['create'] = ['casebox_core' => $core->getCoreName()];
+        $params = [
+            'casebox_core' => $core->getCoreName(),
+            'admin_email' => $core->getAdminEmail(),
+            'sender_email' => $core->getSenderEmail(),
+            'root_password' => $data['rootPassword'],
+        ];
+        $data['app_casebox_core.service.casebox_core_command_service']['create'] = $params;
         $this->container->get('app_dashboard.service.queue_service')->queueWrite($data);
 
         return $core;
