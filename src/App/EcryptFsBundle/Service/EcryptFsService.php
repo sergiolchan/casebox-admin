@@ -48,10 +48,10 @@ class EcryptFsService
      */
     public function isEncrypted()
     {
-        $output = shell_exec("/bin/grep '/var/www/.lock ecryptfs' /etc/mtab");
+        //$output = shell_exec("/bin/grep '/var/www/.lock ecryptfs' /etc/mtab");
         // If you want to disable the ecryptfs you need to do a false positive
         // example:
-        //$output = shell_exec("/bin/grep '/proc proc' /etc/mtab");
+        $output = shell_exec("/bin/grep '/proc proc' /etc/mtab");
         
         $this->container->get('app_dashboard.service.redis_service')->set('ecryptfs_ready', 1);
 
